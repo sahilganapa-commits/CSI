@@ -34,16 +34,25 @@
         <span class="brand-sub">California STEM Innovators</span>
       </span>
     </a>
-    <nav class="nav-links" aria-label="Primary">
+    <nav class="nav-links" id="primary-nav" aria-label="Primary">
       <a href="#about">About</a>
       <a href="#programs">Programs</a>
       <a href="#signup">Workshops</a>
       <a href="#contact">Contact</a>
+      <div class="mobile-nav-cta">
+        <a class="btn btn-primary" href="#join">Get involved →</a>
+      </div>
     </nav>
     <div class="nav-cta">
       <a class="btn btn-primary" href="#join">Get involved →</a>
     </div>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-nav">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
   </div>
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
 </header>
 
 <!-- ========== HERO ========== -->
@@ -197,14 +206,14 @@
   </div>
 
   <!-- Single Featured Workshop Card -->
-  <div class="workshop-card single-ws-card" data-workshop="September 2026 (Date TBD) — Biotech Workshop (Hayward, CA)" style="max-width: 720px; margin: 0 auto; padding: 36px 30px;">
-    <div class="ws-date mono" style="font-size: 12px; margin-bottom: 6px;">SEPTEMBER 2026 (EXACT DATE TBD) • HAYWARD, CA</div>
-    <h3 class="ws-title" style="font-size: clamp(24px, 3.5vw, 32px);">Hands-on Biotech &amp; Genetic Engineering</h3>
-    <p class="ws-desc" style="font-size: 15.5px; margin: 12px 0 20px; line-height: 1.55;">
+  <div class="workshop-card single-ws-card" data-workshop="September 2026 (Date TBD) — Biotech Workshop (Hayward, CA)">
+    <div class="ws-date mono">SEPTEMBER 2026 (EXACT DATE TBD) • HAYWARD, CA</div>
+    <h3 class="ws-title">Hands-on Biotech &amp; Genetic Engineering</h3>
+    <p class="ws-desc">
       Hands-on DNA extraction, bacterial transformation, micropipetting, and molecular biology lab experiments guided by passionate student mentors. 100% free for middle school and high school students with all lab materials provided.
     </p>
-    <div class="ws-foot" style="padding-top: 18px;">
-      <span class="ws-tag mono" style="font-size: 11.5px; padding: 5px 12px;">Middle &amp; High Schoolers (Grades 6–12)</span>
+    <div class="ws-foot">
+      <span class="ws-tag mono">Middle &amp; High Schoolers (Grades 6–12)</span>
       <a href="signup.html?workshop=September%202026%20(Date%20TBD)%20%E2%80%94%20Biotech%20Workshop%20(Hayward%2C%20CA)" class="btn btn-primary btn-lg select-ws-btn">Select Workshop &amp; Register →</a>
     </div>
   </div>

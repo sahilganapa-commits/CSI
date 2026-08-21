@@ -28,6 +28,43 @@ window.addEventListener('scroll', () => {
   lastY = y;
 }, { passive: true });
 
+// Mobile navigation drawer controller
+const navToggleBtn = document.getElementById("nav-toggle");
+const navOverlay = document.getElementById("nav-overlay");
+const primaryNav = document.getElementById("primary-nav");
+
+const toggleMobileMenu = (forceState) => {
+  const isOpen = forceState !== undefined ? forceState : !document.body.classList.contains("nav-open");
+  document.body.classList.toggle("nav-open", isOpen);
+  if (navToggleBtn) {
+    navToggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    navToggleBtn.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+  }
+};
+
+if (navToggleBtn) {
+  navToggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleMobileMenu();
+  });
+}
+
+if (navOverlay) {
+  navOverlay.addEventListener("click", () => toggleMobileMenu(false));
+}
+
+if (primaryNav) {
+  primaryNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => toggleMobileMenu(false));
+  });
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && document.body.classList.contains("nav-open")) {
+    toggleMobileMenu(false);
+  }
+});
+
 // Scroll-triggered reveal for sections
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
@@ -251,4 +288,33 @@ if (adBanner) {
     });
   }
 }
+
+// Deter casual Inspect Element & Right-Clicking
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+document.addEventListener("keydown", (e) => {
+  // Block F12 key
+  if (e.key === "F12") {
+    e.preventDefault();
+    return false;
+  }
+  // Block Ctrl+Shift+I / Cmd+Option+I (Inspect)
+  // Block Ctrl+Shift+J / Cmd+Option+J (Console)
+  // Block Ctrl+Shift+C / Cmd+Option+C (Inspect Element selector)
+  // Block Ctrl+U / Cmd+Option+U (View Source)
+  // Block Ctrl+S / Cmd+S (Save Page)
+  const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+  const modifier = isMac ? (e.metaKey && e.altKey) : (e.ctrlKey && e.shiftKey);
+  const key = e.key.toUpperCase();
+
+  if (modifier && (key === "I" || key === "J" || key === "C" || key === "U")) {
+    e.preventDefault();
+    return false;
+  }
+  if ((e.ctrlKey || e.metaKey) && key === "U") {
+    e.preventDefault();
+    return false;
+  }
+});
+
 
