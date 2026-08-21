@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Biotech Workshop Registration — California STEM Innovators</title>
+<meta name="description" content="Register for the free student-led Biotech Workshop in Hayward, CA (September 2026) for middle and high school students." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,400..700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" role="banner">
+  <div class="nav-inner">
+    <a href="index.html" class="brand" aria-label="California STEM Innovators home">
+      <img src="image.png" alt="" class="brand-logo" />
+      <span class="brand-wordmark">
+        <span class="brand-letters">CSI</span>
+        <span class="brand-sub">California STEM Innovators</span>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#about">About</a>
+      <a href="index.html#programs">Programs</a>
+      <a href="signup.html">Workshops</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="index.html#join">Get involved →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ========== DEDICATED SIGNUP PAGE CONTENT ========== -->
+<main class="signup-page-wrap">
+  <div class="signup-section">
+    <div class="sec-head">
+      <span class="mono dim">California STEM Innovators</span>
+      <h1 class="sec-title">Biotech Workshop <em>Registration.</em></h1>
+      <p class="sec-lede">
+        Our hands-on, peer-led Biotech Workshop is 100% free for middle school and high school students. Coming to <strong>Hayward, CA in September 2026</strong> (exact date TBD). Reserve your spot below!
+      </p>
+    </div>
+
+    <div class="signup-card">
+      <form class="signup-form" id="workshop-signup-form" novalidate>
+        <label>
+          <span class="mono dim">full.name</span>
+          <input type="text" name="name" id="signup-name" placeholder="Ada Lovelace" required />
+        </label>
+
+        <label>
+          <span class="mono dim">email.address</span>
+          <input type="email" name="email" id="signup-email" placeholder="a.lovelace@school.ca.us" required />
+        </label>
+
+        <label>
+          <span class="mono dim">school.name</span>
+          <input type="text" name="school" id="signup-school" placeholder="Hayward High School" required />
+        </label>
+
+        <label>
+          <span class="mono dim">grade.level</span>
+          <select name="grade" id="signup-grade" required>
+            <option value="" disabled selected>Select grade level</option>
+            <option value="Middle School (6th–8th Grade)">Middle School (6th–8th Grade)</option>
+            <option value="9th Grade (Freshman)">9th Grade (Freshman)</option>
+            <option value="10th Grade (Sophomore)">10th Grade (Sophomore)</option>
+            <option value="11th Grade (Junior)">11th Grade (Junior)</option>
+            <option value="12th Grade (Senior)">12th Grade (Senior)</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+
+        <label class="full">
+          <span class="mono dim">workshop.session</span>
+          <select name="workshop_date" id="signup-workshop-date" required>
+            <option value="September 2026 (Date TBD) — Biotech Workshop (Hayward, CA)" selected>September 2026 (Date TBD) — Biotech Workshop (Hayward, CA)</option>
+          </select>
+        </label>
+
+        <!-- Spam protection honeypot field -->
+        <div class="hp-wrapper" aria-hidden="true">
+          <label for="signup-website">Website</label>
+          <input type="text" name="website" id="signup-website" class="hp-field" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <label class="full">
+          <span class="mono dim">anything.else.optional</span>
+          <textarea name="notes" id="signup-notes" placeholder="Tell us about any accessibility requests, dietary needs, or questions..." rows="3"></textarea>
+        </label>
+
+        <div class="form-val-msg signup-val-err" hidden>Please fill out all required fields with a valid email address.</div>
+
+        <div class="form-foot">
+          <button type="submit" class="btn btn-primary btn-lg" id="signup-submit-btn">Complete Registration →</button>
+          <a href="index.html" class="btn btn-ghost btn-lg">← Return Home</a>
+        </div>
+
+        <p class="form-err signup-err mono" hidden style="color: var(--orange); margin-top: 12px;">Something went wrong. Please check your internet connection or email stemcalifornia@gmail.com directly.</p>
+      </form>
+
+      <div class="signup-ack" id="signup-ack" hidden>
+        <div class="ack-icon">✓</div>
+        <h3>You're signed up!</h3>
+        <p>See you in Hayward! We've received your registration for the September Biotech Workshop and will email you as soon as the exact date is confirmed.</p>
+        <div style="margin-top: 20px;">
+          <a href="index.html" class="btn btn-primary">Return to Homepage →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-bottom">
+    <span class="dim">© 2026 California STEM Innovators</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

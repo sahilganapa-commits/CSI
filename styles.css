@@ -31,6 +31,8 @@
 html, body { margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
+[hidden] { display: none !important; }
+
 body {
   background: var(--paper);
   color: var(--ink);
@@ -182,7 +184,7 @@ img { max-width: 100%; display: block; }
 /* ========== Hero ========== */
 .hero {
   position: relative;
-  padding: clamp(50px, 7vw, 90px) var(--pad) clamp(60px, 8vw, 100px);
+  padding: clamp(30px, 4.5vw, 60px) var(--pad) clamp(36px, 5vw, 64px);
   max-width: var(--max);
   margin: 0 auto;
   z-index: 2;
@@ -194,11 +196,11 @@ img { max-width: 100%; display: block; }
 .hero-logo {
   display: flex;
   justify-content: center;
-  margin-bottom: clamp(28px, 4vw, 48px);
+  margin-bottom: clamp(16px, 2.5vw, 28px);
   animation: logo-float 6s ease-in-out infinite;
 }
 .hero-logo img {
-  width: clamp(130px, 15vw, 190px);
+  width: clamp(90px, 10vw, 135px);
   height: auto;
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--ink);
@@ -247,7 +249,7 @@ img { max-width: 100%; display: block; }
 .hero-title {
   font-family: var(--serif);
   font-weight: 450;
-  font-size: clamp(36px, 6.5vw, 100px);
+  font-size: clamp(32px, 5.2vw, 76px);
   line-height: 1.1;
   letter-spacing: -0.03em;
   margin: 0 auto;
@@ -310,12 +312,12 @@ img { max-width: 100%; display: block; }
 
 .hero-lede {
   font-family: var(--serif);
-  font-size: clamp(30px, 4vw, 54px);
+  font-size: clamp(24px, 3vw, 42px);
   font-weight: 450;
-  line-height: 1.1;
+  line-height: 1.15;
   color: var(--ink);
   max-width: 58ch;
-  margin: 40px auto 0;
+  margin: 22px auto 0;
   letter-spacing: -0.02em;
 }
 .hero-lede em {
@@ -326,7 +328,7 @@ img { max-width: 100%; display: block; }
 
 .hero-actions {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
-  margin-top: 40px;
+  margin-top: 28px;
 }
 
 .hero-stats {
@@ -334,7 +336,7 @@ img { max-width: 100%; display: block; }
   grid-template-columns: repeat(4, 1fr);
   gap: 0;
   width: 100%;
-  margin-top: clamp(70px, 9vw, 110px);
+  margin-top: clamp(40px, 5.5vw, 70px);
   border-top: 1.5px solid var(--ink);
   border-bottom: 1.5px solid var(--ink);
   text-align: left;
@@ -474,8 +476,8 @@ img { max-width: 100%; display: block; }
 section { position: relative; z-index: 2; }
 .sec-head {
   max-width: var(--max); margin: 0 auto;
-  padding: clamp(50px, 6.5vw, 90px) var(--pad) 38px;
-  display: grid; gap: 22px;
+  padding: clamp(32px, 4vw, 56px) var(--pad) 22px;
+  display: grid; gap: 16px;
 }
 .eyebrow {
   font-family: var(--mono); font-size: 11px;
@@ -486,8 +488,8 @@ section { position: relative; z-index: 2; }
 .sec-title {
   font-family: var(--serif);
   font-weight: 450;
-  font-size: clamp(26px, 4vw, 52px);
-  line-height: 1;
+  font-size: clamp(24px, 3.5vw, 44px);
+  line-height: 1.1;
   letter-spacing: -0.03em;
   margin: 0;
   max-width: 22ch;
@@ -495,7 +497,7 @@ section { position: relative; z-index: 2; }
 }
 .sec-lede {
   max-width: 65ch;
-  font-size: 17.5px;
+  font-size: 16px;
   color: var(--ink-2);
   line-height: 1.55;
   margin: 0;
@@ -504,7 +506,7 @@ section { position: relative; z-index: 2; }
 /* ========== Mission ========== */
 .mission {
   max-width: var(--max); margin: 0 auto;
-  padding: 0 var(--pad) clamp(60px, 7vw, 110px);
+  padding: 0 var(--pad) clamp(40px, 5vw, 70px);
 }
 .mission-grid {
   display: grid;
@@ -1244,7 +1246,7 @@ section { position: relative; z-index: 2; }
   color: var(--paper);
   border-top: 1.5px solid var(--ink);
   border-bottom: 1.5px solid var(--ink);
-  padding: clamp(50px, 6.5vw, 90px) 0;
+  padding: clamp(36px, 4.5vw, 64px) 0;
 }
 .join-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
 .join-copy { max-width: 60ch; margin-bottom: 52px; }
@@ -1351,11 +1353,185 @@ section { position: relative; z-index: 2; }
 
 @media (max-width: 700px) { .contact-form { grid-template-columns: 1fr; } }
 
+/* ========== Workshop Signup ========== */
+.signup-section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--pad) clamp(36px, 4.5vw, 64px);
+}
+
+/* Upcoming Workshop Feature Grid */
+.workshop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.workshop-card {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.workshop-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 0 var(--orange);
+}
+.ws-date {
+  color: var(--orange);
+  font-size: 11px;
+}
+.ws-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.ws-desc {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin: 0 0 10px;
+  flex: 1;
+}
+.ws-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+.ws-tag {
+  font-size: 10px;
+  background: var(--paper-2);
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+}
+
+.signup-card {
+  background: var(--paper-2);
+  border: 1.5px solid var(--ink);
+  padding: 40px 36px;
+  box-shadow: 0 4px 0 0 var(--ink);
+}
+.signup-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.signup-form label { display: flex; flex-direction: column; gap: 8px; }
+.signup-form label.full { grid-column: 1 / -1; }
+.signup-form label > .mono { color: var(--ink-dim); }
+.signup-form input, .signup-form select, .signup-form textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--ink);
+  padding: 10px 0;
+  font-family: var(--sans);
+  font-size: 15.5px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+  appearance: none;
+  border-radius: 0;
+}
+.signup-form select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 55%, calc(100% - 9px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
+.signup-form input:focus, .signup-form select:focus, .signup-form textarea:focus {
+  border-color: var(--orange);
+}
+.signup-form textarea { resize: vertical; }
+.signup-form input::placeholder, .signup-form textarea::placeholder {
+  color: var(--ink-dimmer);
+}
+
+/* Honeypot spam protection (visually hidden with CSS, not display:none) */
+.hp-wrapper {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.hp-field {
+  width: 1px !important;
+  height: 1px !important;
+}
+
+/* Inline validation feedback */
+.form-val-msg {
+  grid-column: 1 / -1;
+  color: var(--orange);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 10px 14px;
+  background: var(--orange-soft);
+  border: 1px solid var(--orange);
+}
+
+/* Success Card */
+.signup-ack {
+  padding: 36px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.signup-ack .ack-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: #FFF5EE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+.signup-ack h3 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.5vw, 36px);
+  font-weight: 450;
+  margin: 0;
+  color: var(--ink);
+}
+.signup-ack p {
+  font-size: 16.5px;
+  color: var(--ink-2);
+  max-width: 44ch;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .signup-form { grid-template-columns: 1fr; }
+  .signup-card { padding: 28px 20px; }
+}
+
 /* ========== Footer ========== */
 .footer {
   max-width: var(--max);
   margin: 0 auto;
-  padding: clamp(50px, 6vw, 90px) var(--pad) 32px;
+  padding: clamp(36px, 4.5vw, 60px) var(--pad) 24px;
   position: relative; z-index: 2;
 }
 .footer-top {
@@ -1407,3 +1583,88 @@ section { position: relative; z-index: 2; }
 /* Selection */
 ::selection { background: var(--orange); color: var(--paper); }
 ::-moz-selection { background: var(--orange); color: var(--paper); }
+
+/* ========== Floating Ad Banner ========== */
+.ad-banner {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 900;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  padding: 20px 22px;
+  max-width: 360px;
+  width: calc(100% - 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform: translateY(120px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease, visibility 0.4s ease;
+}
+.ad-banner.active {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+.ad-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: var(--ink-dim);
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+}
+.ad-close:hover {
+  color: var(--orange);
+}
+.ad-badge {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--orange);
+  font-weight: 600;
+}
+.ad-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.ad-desc {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 0 0 4px;
+  line-height: 1.45;
+}
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+.ad-btn {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+  .ad-banner {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* Dedicated Signup Page Wrappers */
+.signup-page-wrap {
+  padding-top: clamp(30px, 4vw, 60px);
+  min-height: 80vh;
+}
