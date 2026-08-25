@@ -1582,7 +1582,19 @@ section { position: relative; z-index: 2; }
   width: 100%; max-width: 100%; min-width: 0;
   box-sizing: border-box;
 }
-.contact-form label.full, .signup-form label.full { grid-column: 1 / -1; }
+/* Ensure ALL .full elements, waiver box, and volunteer box span 100% width of the form grid */
+.contact-form .full, 
+.signup-form .full, 
+.signup-form label.full, 
+.signup-form div.full,
+.waiver-box,
+.volunteer-box { 
+  grid-column: 1 / -1 !important; 
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 .contact-form label > .mono, .signup-form label > .mono { color: var(--ink-dim); }
 .contact-form input, .contact-form select, .contact-form textarea,
 .signup-form input, .signup-form select, .signup-form textarea {
@@ -1602,15 +1614,17 @@ section { position: relative; z-index: 2; }
   appearance: none;
   -webkit-appearance: none;
   border-radius: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }
-.contact-form textarea, .signup-form textarea {
-  white-space: pre-wrap;
-  padding-right: 0;
-}
+
+/* Allow text wrapping on selects and textareas so content doesn't truncate or overflow */
 .contact-form select, .signup-form select {
+  white-space: normal !important;
+  word-break: break-word !important;
+  text-overflow: clip !important;
+  height: auto !important;
+  min-height: 44px;
+  padding-right: 28px !important;
+  line-height: 1.4 !important;
   background-image:
     linear-gradient(45deg, transparent 50%, var(--ink) 50%),
     linear-gradient(135deg, var(--ink) 50%, transparent 50%);
@@ -1618,12 +1632,80 @@ section { position: relative; z-index: 2; }
   background-size: 5px 5px;
   background-repeat: no-repeat;
 }
+.contact-form select option, .signup-form select option {
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+.contact-form textarea, .signup-form textarea {
+  white-space: pre-wrap;
+  padding-right: 0;
+}
 .signup-form input:focus, .signup-form select:focus, .signup-form textarea:focus {
   border-color: var(--orange);
 }
 .signup-form textarea { resize: vertical; }
 .signup-form input::placeholder, .signup-form textarea::placeholder {
   color: var(--ink-dimmer);
+}
+
+/* Custom File Input Styling */
+.signup-form input[type="file"] {
+  border: 1px solid var(--line-strong) !important;
+  background: var(--paper) !important;
+  border-radius: 6px !important;
+  padding: 10px 12px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.signup-form input[type="file"]::file-selector-button {
+  background: var(--paper-2);
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.2s ease;
+}
+.signup-form input[type="file"]::file-selector-button:hover {
+  background: var(--paper-deep);
+}
+
+/* Waiver Box Dynamic Layout */
+.waiver-box {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  background: var(--paper-2);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 8px;
+  padding: clamp(14px, 3vw, 22px) !important;
+  margin: 12px 0 16px 0 !important;
+}
+.waiver-box * {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+@media (max-width: 680px) {
+  .signup-form {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
 }
 
 /* Honeypot spam protection (visually hidden with CSS, not display:none) */
