@@ -65,6 +65,17 @@
       </p>
     </div>
 
+    <!-- Volunteer Banner -->
+    <div style="max-width: 720px; margin: 0 auto 24px auto; background: rgba(207, 20, 43, 0.04); border: 1px solid rgba(207, 20, 43, 0.2); border-radius: 10px; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+      <div>
+        <span class="mono" style="color: var(--orange); font-size: 11px; font-weight: 700; letter-spacing: 0.08em;">WANT TO VOLUNTEER?</span>
+        <p style="margin: 4px 0 0 0; font-size: 14.5px; font-weight: 600; color: var(--ink);">Qualified high school &amp; college students can apply to volunteer as workshop mentors!</p>
+      </div>
+      <a href="https://forms.gle/kFs6NNKeHRjpuejT7" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="white-space: nowrap; flex-shrink: 0;">
+        Volunteer Application Form ↗
+      </a>
+    </div>
+
     <div class="signup-card">
       <form class="signup-form" id="workshop-signup-form" novalidate>
         <label>
@@ -102,6 +113,31 @@
           </select>
         </label>
 
+        <!-- Mandatory Waiver Download & File Upload Section -->
+        <div class="full waiver-box" style="background: var(--paper-2); border: 1.5px dashed var(--line-strong); border-radius: 8px; padding: 20px; margin: 12px 0 16px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px; margin-bottom: 14px;">
+            <div style="flex: 1; min-width: 240px;">
+              <h4 style="margin: 0 0 4px 0; font-size: 15.5px; font-weight: 700; color: var(--ink);">
+                Participant Liability &amp; Medical Authorization Waiver <span style="color: var(--orange);">*</span>
+              </h4>
+              <p style="margin: 0; font-size: 13.5px; color: var(--ink-dim); line-height: 1.45;">
+                A completed and signed waiver from a parent or legal guardian is required to attend. Download the waiver below, fill it out, and upload your signed copy.
+              </p>
+            </div>
+            <a href="CSI_Biotechnology_Workshop_Waiver.pdf" download="CSI_Biotechnology_Workshop_Waiver.pdf" class="btn btn-ghost btn-sm" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap; border: 1px solid var(--line-strong); background: var(--paper);">
+              📥 Download Waiver (PDF)
+            </a>
+          </div>
+          
+          <label style="display: block; margin-top: 8px;">
+            <span class="mono dim">upload.completed.signed.waiver (REQUIRED) *</span>
+            <input type="file" name="waiver_file" id="signup-waiver" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" required style="margin-top: 6px; width: 100%; padding: 10px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 6px; font-size: 14px;" />
+            <span style="display: block; font-size: 12px; color: var(--ink-dim); margin-top: 6px;">
+              Accepted file formats: PDF, PNG, JPG, JPEG, DOCX. Maximum file size: 10MB.
+            </span>
+          </label>
+        </div>
+
         <!-- Spam protection honeypot field -->
         <div class="hp-wrapper" aria-hidden="true">
           <label for="signup-website">Website</label>
@@ -113,7 +149,7 @@
           <textarea name="notes" id="signup-notes" placeholder="Tell us about any accessibility requests, dietary needs, or questions..." rows="3"></textarea>
         </label>
 
-        <div class="form-val-msg signup-val-err" hidden>Please fill out all required fields with a valid email address.</div>
+        <div class="form-val-msg signup-val-err" hidden style="color: var(--orange); font-weight: 600; margin: 10px 0;">Please fill out all required fields with a valid email address and attach your signed waiver.</div>
 
         <div class="form-foot">
           <button type="submit" class="btn btn-primary btn-lg" id="signup-submit-btn">Complete Registration →</button>
@@ -126,7 +162,7 @@
       <div class="signup-ack" id="signup-ack" hidden>
         <div class="ack-icon">✓</div>
         <h3>You're signed up!</h3>
-        <p>See you at Union City Library! We've received your registration for the CSI Biology Workshop on 19 September 2026. A confirmation email with full event details has been sent to your inbox.</p>
+        <p>See you at Union City Library! We've received your registration and signed waiver for the CSI Biology Workshop on 19 September 2026. A confirmation email with full event details has been sent to your inbox.</p>
         <div style="margin-top: 20px;">
           <a href="index.html" class="btn btn-primary">Return to Homepage →</a>
         </div>

@@ -346,44 +346,76 @@ if (signupForm) {
       return;
     }
 
-    // 2. Basic client-side validation
+    // 2. Client-side validation (including mandatory waiver file upload)
     const nameInput = signupForm.querySelector('[name="name"]');
     const emailInput = signupForm.querySelector('[name="email"]');
     const schoolInput = signupForm.querySelector('[name="school"]');
     const gradeSelect = signupForm.querySelector('[name="grade"]');
     const dateSelect = signupForm.querySelector('[name="workshop_date"]');
+    const waiverInput = signupForm.querySelector('#signup-waiver');
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const hasWaiver = waiverInput && waiverInput.files && waiverInput.files.length > 0;
     const isValid =
       nameInput && nameInput.value.trim() !== "" &&
       emailInput && emailRegex.test(emailInput.value.trim()) &&
       schoolInput && schoolInput.value.trim() !== "" &&
       gradeSelect && gradeSelect.value !== "" &&
-      dateSelect && dateSelect.value !== "";
+      dateSelect && dateSelect.value !== "" &&
+      hasWaiver;
 
     if (!isValid) {
-      if (valErr) valErr.hidden = false;
+      if (valErr) {
+        valErr.hidden = false;
+        if (!hasWaiver) {
+          valErr.textContent = "⚠️ Please attach your completed & signed participant waiver before submitting registration.";
+        } else {
+          valErr.textContent = "⚠️ Please fill out all required fields with a valid email address.";
+        }
+      }
       if (!nameInput || !nameInput.value.trim()) nameInput && nameInput.focus();
       else if (!emailInput || !emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) emailInput && emailInput.focus();
       else if (!schoolInput || !schoolInput.value.trim()) schoolInput && schoolInput.focus();
       else if (!gradeSelect || !gradeSelect.value) gradeSelect && gradeSelect.focus();
       else if (!dateSelect || !dateSelect.value) dateSelect && dateSelect.focus();
+      else if (!hasWaiver) waiverInput && waiverInput.focus();
       return;
     }
 
     // 3. Disable submit button & show loading state to prevent double-submits
-    const originalBtnText = signupSubmitBtn ? signupSubmitBtn.innerHTML : "Sign up for workshop →";
+    const originalBtnText = signupSubmitBtn ? signupSubmitBtn.innerHTML : "Complete Registration →";
     if (signupSubmitBtn) {
       signupSubmitBtn.disabled = true;
-      signupSubmitBtn.innerHTML = "Signing up...";
+      signupSubmitBtn.innerHTML = "Uploading waiver & signing up...";
     }
 
-    // 4. Encode form data as application/x-www-form-urlencoded
+    // 4. Convert waiver file to base64 if attached
+    let waiverFileName = "";
+    let waiverBase64 = "";
+    if (hasWaiver && waiverInput.files[0]) {
+      const file = waiverInput.files[0];
+      waiverFileName = file.name;
+      try {
+        waiverBase64 = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (evt) => resolve(evt.target.result);
+          reader.onerror = () => resolve("");
+          reader.readAsDataURL(file);
+        });
+      } catch (fileErr) {
+        console.warn("Waiver file read error:", fileErr);
+      }
+    }
+
+    // 5. Encode form data as application/x-www-form-urlencoded
     const formData = new FormData(signupForm);
-    const bodyPayload = new URLSearchParams(formData).toString();
+    const params = new URLSearchParams(formData);
+    if (waiverFileName) params.append("waiver_name", waiverFileName);
+    if (waiverBase64) params.append("waiver_base64", waiverBase64);
+    const bodyPayload = params.toString();
 
     try {
-      // 5. POST payload to Google Apps Script Web App URL with mode: 'no-cors'
+      // 6. POST payload to Google Apps Script Web App URL with mode: 'no-cors'
       await fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
