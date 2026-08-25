@@ -9,7 +9,7 @@
 // function doPost(e) {
 //   try {
 //     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-//     var p = e.parameter;
+//     var p = e.parameter || {};
 //     
 //     // 1. Log to Google Sheet
 //     sheet.appendRow([
@@ -23,81 +23,153 @@
 //     ]);
 //
 //     // 2. Send Automated Confirmation Email to Student
-//     if (p.email && p.email.trim() !== '') {
-//       var studentName = p.name ? p.name.trim() : 'Student';
-//       var subject = "🎉 Registration Confirmed: CSI Biology Workshop!";
+//     var emailAddress = p.email ? String(p.email).trim() : '';
+//     if (emailAddress !== '') {
+//       var studentName = p.name ? String(p.name).trim() : 'Student';
+//       var subject = "Registration Confirmed: CSI Biology Workshop";
 //       
 //       var htmlBody = `
-//         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #111; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-//           <div style="background-color: #0f172a; padding: 24px; text-align: center; color: #ffffff;">
-//             <h1 style="margin: 0; font-size: 24px; font-weight: 700;">California STEM Innovators</h1>
-//             <p style="margin: 6px 0 0 0; color: #94a3b8; font-size: 14px;">Workshop Registration Confirmation</p>
-//           </div>
-//           
-//           <div style="padding: 30px 24px; background-color: #ffffff;">
-//             <h2 style="margin-top: 0; color: #0f172a;">You're in, ${studentName}! 🎉</h2>
-//             <p style="font-size: 15px; line-height: 1.6; color: #334155;">
-//               Thank you for registering for the <strong>CSI Biology Workshop</strong>. We've reserved your spot! Below are all the details for the upcoming event:
-//             </p>
-//             
-//             <div style="background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 16px 20px; border-radius: 4px; margin: 24px 0;">
-//               <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #1e293b;">📌 Event Details</h3>
-//               <p style="margin: 6px 0; font-size: 14px;"><strong>Workshop:</strong> CSI Biology Workshop</p>
-//               <p style="margin: 6px 0; font-size: 14px;"><strong>Date:</strong> Saturday, September 19, 2026</p>
-//               <p style="margin: 6px 0; font-size: 14px;"><strong>Location:</strong> Union City Library, 34007 Alvarado-Niles Road, Union City, CA</p>
-//               <p style="margin: 6px 0; font-size: 14px;"><strong>Cost:</strong> <span style="color: #16a34a; font-weight: bold;">$0 — All Materials Included!</span></p>
-//             </div>
+//         <!DOCTYPE html>
+//         <html>
+//         <head>
+//           <meta charset="utf-8">
+//           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//         </head>
+//         <body style="margin: 0; padding: 0; background-color: #F9F9F7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #0A0A0A; -webkit-font-smoothing: antialiased;">
+//           <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F9F9F7; padding: 40px 16px;">
+//             <tr>
+//               <td align="center">
+//                 <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; background-color: #FFFFFF; border: 1px solid #E5E5E0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
+//                   
+//                   <!-- CSI Crimson Accent Bar -->
+//                   <tr>
+//                     <td style="height: 4px; background-color: #CF142B;"></td>
+//                   </tr>
 //
-//             <h3 style="color: #1e293b; font-size: 16px; margin-top: 24px;">🔬 What You'll Be Doing</h3>
-//             <ul style="padding-left: 20px; color: #334155; line-height: 1.6; font-size: 14px;">
-//               <li><strong>Extract DNA:</strong> Hands-on extraction of real genomic DNA.</li>
-//               <li><strong>Transform Bacteria:</strong> Introduce new genes into bacterial cells.</li>
-//               <li><strong>Explore Biotechnology:</strong> Learn cutting-edge biotech concepts guided by student mentors.</li>
-//             </ul>
+//                   <!-- CSI Brand Header -->
+//                   <tr>
+//                     <td style="padding: 32px 36px 24px 36px; border-bottom: 1px solid #F0F0EC;">
+//                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+//                         <tr>
+//                           <td style="vertical-align: middle; width: 48px;">
+//                             <img src="https://californiasteminnovators.org/image.png" alt="CSI Logo" width="44" height="44" style="display: block; border: 0; width: 44px; height: 44px; border-radius: 6px;" />
+//                           </td>
+//                           <td style="vertical-align: middle; padding-left: 12px;">
+//                             <span style="display: block; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: #0A0A0A; line-height: 1.1;">CSI</span>
+//                             <span style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #757570; font-weight: 600; margin-top: 2px;">California STEM Innovators</span>
+//                           </td>
+//                         </tr>
+//                       </table>
+//                     </td>
+//                   </tr>
 //
-//             <div style="border-top: 1px solid #e2e8f0; margin-top: 28px; padding-top: 16px; font-size: 13px; color: #64748b; line-height: 1.5;">
-//               <p style="margin: 0 0 8px 0;"><strong>Your Info On File:</strong></p>
-//               <p style="margin: 4px 0;">Name: ${studentName}</p>
-//               <p style="margin: 4px 0;">School: ${p.school || 'N/A'}</p>
-//               <p style="margin: 4px 0;">Grade: ${p.grade || 'N/A'}</p>
-//             </div>
+//                   <!-- Main Content -->
+//                   <tr>
+//                     <td style="padding: 36px 36px 28px 36px;">
+//                       <h1 style="margin: 0 0 16px 0; font-size: 22px; font-weight: 700; color: #0A0A0A; letter-spacing: -0.02em; line-height: 1.3;">
+//                         Workshop Registration Confirmed
+//                       </h1>
+//                       
+//                       <p style="margin: 0 0 24px 0; font-size: 15px; line-height: 1.6; color: #333330;">
+//                         Hello ${studentName},<br/><br/>
+//                         Your registration for the <strong>CSI Biology Workshop</strong> has been confirmed. We look forward to seeing you!
+//                       </p>
 //
-//             <p style="font-size: 14px; color: #475569; margin-top: 24px; line-height: 1.6;">
-//               If you have any questions, accessibility requests, or need to adjust your registration, simply reply to this email or contact us at <a href="mailto:stemcalifornia@gmail.com" style="color: #2563eb;">stemcalifornia@gmail.com</a>.
-//             </p>
-//           </div>
-//           
-//           <div style="background-color: #f1f5f9; padding: 16px; text-align: center; font-size: 12px; color: #64748b;">
-//             © 2026 California STEM Innovators • <a href="https://californiasteminnovators.org/" style="color: #2563eb; text-decoration: none;">californiasteminnovators.org</a>
-//           </div>
-//         </div>
+//                       <!-- Event Summary Card -->
+//                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #FBFBFA; border: 1px solid #EBEBE6; border-left: 4px solid #CF142B; border-radius: 4px; margin-bottom: 28px;">
+//                         <tr>
+//                           <td style="padding: 20px 24px;">
+//                             <p style="margin: 0 0 12px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #CF142B; font-weight: 700;">
+//                               Event Details
+//                             </p>
+//                             <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size: 14px; line-height: 1.6; color: #1F1D1A;">
+//                               <tr>
+//                                 <td style="padding: 4px 0; font-weight: 600; width: 95px; color: #757570;">Program:</td>
+//                                 <td style="padding: 4px 0; font-weight: 600; color: #0A0A0A;">CSI Biology Workshop</td>
+//                               </tr>
+//                               <tr>
+//                                 <td style="padding: 4px 0; font-weight: 600; color: #757570;">Date:</td>
+//                                 <td style="padding: 4px 0; color: #0A0A0A;">Saturday, September 19, 2026</td>
+//                               </tr>
+//                               <tr>
+//                                 <td style="padding: 4px 0; font-weight: 600; color: #757570; vertical-align: top;">Location:</td>
+//                                 <td style="padding: 4px 0; color: #0A0A0A;">Union City Library<br/><span style="color: #666660; font-size: 13px;">34007 Alvarado-Niles Road, Union City, CA</span></td>
+//                               </tr>
+//                               <tr>
+//                                 <td style="padding: 4px 0; font-weight: 600; color: #757570;">Admission:</td>
+//                                 <td style="padding: 4px 0; font-weight: 600; color: #CF142B;">Free ($0) — All Materials Included</td>
+//                               </tr>
+//                             </table>
+//                           </td>
+//                         </tr>
+//                       </table>
+//
+//                       <!-- Workshop Curriculum -->
+//                       <h2 style="margin: 0 0 12px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #0A0A0A; font-weight: 700;">
+//                         Workshop Curriculum
+//                       </h2>
+//                       <ul style="margin: 0 0 28px 0; padding-left: 18px; font-size: 14px; line-height: 1.7; color: #333330;">
+//                         <li style="margin-bottom: 6px;"><strong>DNA Extraction:</strong> Extract genomic DNA using lab protocols.</li>
+//                         <li style="margin-bottom: 6px;"><strong>Bacterial Transformation:</strong> Introduce engineered plasmids into bacteria.</li>
+//                         <li style="margin-bottom: 6px;"><strong>Biotechnology Concepts:</strong> Explore modern lab techniques guided by student mentors.</li>
+//                       </ul>
+//
+//                       <!-- Student Info -->
+//                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top: 1px solid #EBEBE6; padding-top: 20px;">
+//                         <tr>
+//                           <td>
+//                             <p style="margin: 0 0 8px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #757570; font-weight: 600;">Registrant Info</p>
+//                             <p style="margin: 0; font-size: 13px; color: #333330; line-height: 1.5;">
+//                               <strong>Name:</strong> ${studentName}<br/>
+//                               <strong>School:</strong> ${p.school || 'N/A'}<br/>
+//                               <strong>Grade:</strong> ${p.grade || 'N/A'}
+//                             </p>
+//                           </td>
+//                         </tr>
+//                       </table>
+//
+//                       <p style="margin: 24px 0 0 0; font-size: 13px; line-height: 1.6; color: #666660;">
+//                         If you have questions or need to modify your registration, please reply directly to this email or contact us at <a href="mailto:stemcalifornia@gmail.com" style="color: #CF142B; text-decoration: underline;">stemcalifornia@gmail.com</a>.
+//                       </p>
+//                     </td>
+//                   </tr>
+//
+//                   <!-- Footer -->
+//                   <tr>
+//                     <td style="padding: 20px 36px; background-color: #F5F5F2; border-top: 1px solid #EBEBE6; text-align: center; font-size: 12px; color: #757570;">
+//                       <strong>California STEM Innovators</strong> • Unlocking STEM for every student<br/>
+//                       <a href="https://californiasteminnovators.org/" style="color: #CF142B; text-decoration: none; font-weight: 500;">californiasteminnovators.org</a>
+//                     </td>
+//                   </tr>
+//
+//                 </table>
+//               </td>
+//             </tr>
+//           </table>
+//         </body>
+//         </html>
 //       `;
 //
-//       var plainBody = "Hi " + studentName + ",\n\n" +
-//         "You're in! We've received your registration for the CSI Biology Workshop.\n\n" +
+//       var plainBody = "Hello " + studentName + ",\n\n" +
+//         "Your registration for the CSI Biology Workshop has been confirmed.\n\n" +
 //         "EVENT DETAILS:\n" +
-//         "• Workshop: CSI Biology Workshop\n" +
+//         "• Program: CSI Biology Workshop\n" +
 //         "• Date: Saturday, September 19, 2026\n" +
 //         "• Location: Union City Library, 34007 Alvarado-Niles Road, Union City, CA\n" +
-//         "• Cost: $0 (All Materials Included)\n\n" +
-//         "WHAT YOU'LL DO:\n" +
-//         "• Extract DNA\n" +
-//         "• Transform Bacteria\n" +
-//         "• Explore Biotechnology\n\n" +
-//         "YOUR INFO:\n" +
+//         "• Admission: Free ($0) — All Materials Included\n\n" +
+//         "CURRICULUM:\n" +
+//         "• DNA Extraction\n" +
+//         "• Bacterial Transformation\n" +
+//         "• Biotechnology Concepts\n\n" +
+//         "REGISTRANT INFO:\n" +
 //         "• Name: " + studentName + "\n" +
 //         "• School: " + (p.school || 'N/A') + "\n" +
 //         "• Grade: " + (p.grade || 'N/A') + "\n\n" +
-//         "Questions? Contact us at stemcalifornia@gmail.com.\n\n" +
+//         "Questions? Reply to this email or contact stemcalifornia@gmail.com.\n\n" +
 //         "California STEM Innovators\n" +
 //         "https://californiasteminnovators.org/";
 //
-//       MailApp.sendEmail({
-//         to: p.email.trim(),
-//         subject: subject,
-//         body: plainBody,
-//         htmlBody: htmlBody
-//       });
+//       MailApp.sendEmail(emailAddress, subject, plainBody, { htmlBody: htmlBody });
 //     }
 //
 //     return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
@@ -106,6 +178,10 @@
 //   }
 // }
 //
+// function testEmail() {
+//   var email = Session.getActiveUser().getEmail();
+//   MailApp.sendEmail(email, "Test Email", "Authorization test!");
+// }
 // 4. Click Deploy > Manage deployments > Click the Edit Pencil > Select 'New version' > Click Deploy.
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ_NKlbEl_Oi1TO5xTBZiHyBLUfIHZkfJe0rdQFvxYsKe74D464iDAPMMAHMFDQCeR/exec';
 
