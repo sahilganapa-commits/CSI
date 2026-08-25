@@ -456,32 +456,4 @@ if (adBanner) {
   }
 }
 
-// Deter casual Inspect Element & Right-Clicking
-document.addEventListener("contextmenu", (e) => e.preventDefault());
-
-document.addEventListener("keydown", (e) => {
-  // Block F12 key
-  if (e.key === "F12") {
-    e.preventDefault();
-    return false;
-  }
-  // Block Ctrl+Shift+I / Cmd+Option+I (Inspect)
-  // Block Ctrl+Shift+J / Cmd+Option+J (Console)
-  // Block Ctrl+Shift+C / Cmd+Option+C (Inspect Element selector)
-  // Block Ctrl+U / Cmd+Option+U (View Source)
-  // Block Ctrl+S / Cmd+S (Save Page)
-  const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
-  const modifier = isMac ? (e.metaKey && e.altKey) : (e.ctrlKey && e.shiftKey);
-  const key = e.key.toUpperCase();
-
-  if (modifier && (key === "I" || key === "J" || key === "C" || key === "U")) {
-    e.preventDefault();
-    return false;
-  }
-  if ((e.ctrlKey || e.metaKey) && key === "U") {
-    e.preventDefault();
-    return false;
-  }
-});
-
 
