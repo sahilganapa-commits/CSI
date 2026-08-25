@@ -159,7 +159,13 @@ img { max-width: 100%; display: block; }
 .nav-links a { position: relative; transition: color 0.2s ease; padding: 4px 0; }
 .nav-links a:hover { color: var(--orange); }
 
-/* Discord Nav Link */
+/* Discord Nav Link & Floating Callout Box */
+.nav-discord-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
 .nav-discord-link {
   display: inline-flex;
   align-items: center;
@@ -173,6 +179,88 @@ img { max-width: 100%; display: block; }
 .nav-discord-link:hover .discord-icon {
   fill: #5865F2;
   transform: scale(1.1);
+}
+
+.discord-callout-wrap {
+  position: absolute;
+  top: calc(100% + 2px);
+  right: -26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 100;
+  animation: calloutBounce 2.5s ease-in-out infinite;
+}
+
+.discord-curved-arrow {
+  width: 48px;
+  height: 34px;
+  margin-right: 36px;
+  margin-bottom: -2px;
+  flex-shrink: 0;
+}
+
+.discord-callout-box {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(10, 10, 10, 0.08);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.discord-callout-box:hover {
+  border-color: #5865F2;
+  box-shadow: 0 6px 16px rgba(88, 101, 242, 0.2);
+  transform: translateY(-2px);
+}
+
+.discord-callout-box:hover .discord-icon-small {
+  fill: #5865F2;
+}
+
+.discord-icon-small {
+  fill: var(--ink);
+  flex-shrink: 0;
+  transition: fill 0.2s ease;
+}
+
+.discord-callout-text {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 550;
+  line-height: 1.22;
+  color: var(--ink);
+  text-align: left;
+}
+
+@keyframes calloutBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@media (max-width: 900px) {
+  .discord-callout-wrap {
+    position: static;
+    animation: none;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .discord-curved-arrow {
+    display: none;
+  }
 }
 
 .nav-cta { display: inline-flex; align-items: center; gap: 12px; }
