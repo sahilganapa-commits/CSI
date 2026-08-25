@@ -1,21 +1,112 @@
 // Google Apps Script Web App URL constant for Workshop Signup
 // Paste your Web App URL below after deploying your Google Apps Script!
 // ------------------------------------------------------------------
-// Quick Google Spreadsheet Integration Guide:
-// 1. Create a Google Spreadsheet and name column headers in Row 1:
-//    Timestamp | Full Name | Email Address | School | Grade Level | Workshop Date | Notes
-// 2. Open Extensions > Apps Script in Google Sheets.
-// 3. Paste the following script:
+// Google Spreadsheet & Automated Confirmation Email Script Guide:
+// 1. Open your Google Spreadsheet (where registrations are logged).
+// 2. Click Extensions > Apps Script.
+// 3. Replace all code in Code.gs with the following script:
 //
-//    function doPost(e) {
-//      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-//      var p = e.parameter;
-//      sheet.appendRow([new Date(), p.name || '', p.email || '', p.school || '', p.grade || '', p.workshop_date || '', p.notes || '']);
-//      return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
-//    }
+// function doPost(e) {
+//   try {
+//     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+//     var p = e.parameter;
+//     
+//     // 1. Log to Google Sheet
+//     sheet.appendRow([
+//       new Date(), 
+//       p.name || '', 
+//       p.email || '', 
+//       p.school || '', 
+//       p.grade || '', 
+//       p.workshop_date || '', 
+//       p.notes || ''
+//     ]);
 //
-// 4. Click Deploy > New deployment > Web App (Execute as: "Me", Access: "Anyone").
-// 5. Copy the deployment Web App URL and paste it into SCRIPT_URL below!
+//     // 2. Send Automated Confirmation Email to Student
+//     if (p.email && p.email.trim() !== '') {
+//       var studentName = p.name ? p.name.trim() : 'Student';
+//       var subject = "🎉 Registration Confirmed: CSI Biology Workshop!";
+//       
+//       var htmlBody = `
+//         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #111; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+//           <div style="background-color: #0f172a; padding: 24px; text-align: center; color: #ffffff;">
+//             <h1 style="margin: 0; font-size: 24px; font-weight: 700;">California STEM Innovators</h1>
+//             <p style="margin: 6px 0 0 0; color: #94a3b8; font-size: 14px;">Workshop Registration Confirmation</p>
+//           </div>
+//           
+//           <div style="padding: 30px 24px; background-color: #ffffff;">
+//             <h2 style="margin-top: 0; color: #0f172a;">You're in, ${studentName}! 🎉</h2>
+//             <p style="font-size: 15px; line-height: 1.6; color: #334155;">
+//               Thank you for registering for the <strong>CSI Biology Workshop</strong>. We've reserved your spot! Below are all the details for the upcoming event:
+//             </p>
+//             
+//             <div style="background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 16px 20px; border-radius: 4px; margin: 24px 0;">
+//               <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #1e293b;">📌 Event Details</h3>
+//               <p style="margin: 6px 0; font-size: 14px;"><strong>Workshop:</strong> CSI Biology Workshop</p>
+//               <p style="margin: 6px 0; font-size: 14px;"><strong>Date:</strong> Saturday, September 19, 2026</p>
+//               <p style="margin: 6px 0; font-size: 14px;"><strong>Location:</strong> Union City Library, 34007 Alvarado-Niles Road, Union City, CA</p>
+//               <p style="margin: 6px 0; font-size: 14px;"><strong>Cost:</strong> <span style="color: #16a34a; font-weight: bold;">$0 — All Materials Included!</span></p>
+//             </div>
+//
+//             <h3 style="color: #1e293b; font-size: 16px; margin-top: 24px;">🔬 What You'll Be Doing</h3>
+//             <ul style="padding-left: 20px; color: #334155; line-height: 1.6; font-size: 14px;">
+//               <li><strong>Extract DNA:</strong> Hands-on extraction of real genomic DNA.</li>
+//               <li><strong>Transform Bacteria:</strong> Introduce new genes into bacterial cells.</li>
+//               <li><strong>Explore Biotechnology:</strong> Learn cutting-edge biotech concepts guided by student mentors.</li>
+//             </ul>
+//
+//             <div style="border-top: 1px solid #e2e8f0; margin-top: 28px; padding-top: 16px; font-size: 13px; color: #64748b; line-height: 1.5;">
+//               <p style="margin: 0 0 8px 0;"><strong>Your Info On File:</strong></p>
+//               <p style="margin: 4px 0;">Name: ${studentName}</p>
+//               <p style="margin: 4px 0;">School: ${p.school || 'N/A'}</p>
+//               <p style="margin: 4px 0;">Grade: ${p.grade || 'N/A'}</p>
+//             </div>
+//
+//             <p style="font-size: 14px; color: #475569; margin-top: 24px; line-height: 1.6;">
+//               If you have any questions, accessibility requests, or need to adjust your registration, simply reply to this email or contact us at <a href="mailto:stemcalifornia@gmail.com" style="color: #2563eb;">stemcalifornia@gmail.com</a>.
+//             </p>
+//           </div>
+//           
+//           <div style="background-color: #f1f5f9; padding: 16px; text-align: center; font-size: 12px; color: #64748b;">
+//             © 2026 California STEM Innovators • <a href="https://californiasteminnovators.org/" style="color: #2563eb; text-decoration: none;">californiasteminnovators.org</a>
+//           </div>
+//         </div>
+//       `;
+//
+//       var plainBody = "Hi " + studentName + ",\n\n" +
+//         "You're in! We've received your registration for the CSI Biology Workshop.\n\n" +
+//         "EVENT DETAILS:\n" +
+//         "• Workshop: CSI Biology Workshop\n" +
+//         "• Date: Saturday, September 19, 2026\n" +
+//         "• Location: Union City Library, 34007 Alvarado-Niles Road, Union City, CA\n" +
+//         "• Cost: $0 (All Materials Included)\n\n" +
+//         "WHAT YOU'LL DO:\n" +
+//         "• Extract DNA\n" +
+//         "• Transform Bacteria\n" +
+//         "• Explore Biotechnology\n\n" +
+//         "YOUR INFO:\n" +
+//         "• Name: " + studentName + "\n" +
+//         "• School: " + (p.school || 'N/A') + "\n" +
+//         "• Grade: " + (p.grade || 'N/A') + "\n\n" +
+//         "Questions? Contact us at stemcalifornia@gmail.com.\n\n" +
+//         "California STEM Innovators\n" +
+//         "https://californiasteminnovators.org/";
+//
+//       MailApp.sendEmail({
+//         to: p.email.trim(),
+//         subject: subject,
+//         body: plainBody,
+//         htmlBody: htmlBody
+//       });
+//     }
+//
+//     return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
+//   } catch (error) {
+//     return ContentService.createTextOutput("Error: " + error.toString()).setMimeType(ContentService.MimeType.TEXT);
+//   }
+// }
+//
+// 4. Click Deploy > Manage deployments > Click the Edit Pencil > Select 'New version' > Click Deploy.
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ_NKlbEl_Oi1TO5xTBZiHyBLUfIHZkfJe0rdQFvxYsKe74D464iDAPMMAHMFDQCeR/exec';
 
 // Nav hide on scroll down, show on scroll up
