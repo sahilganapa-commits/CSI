@@ -8,10 +8,47 @@
 //
 // function doPost(e) {
 //   try {
-//     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-//     var p = e.parameter || {};
+//     var ss = SpreadsheetApp.getActiveSpreadsheet();
+//     var sheet = ss.getSheetByName("Workshop_Registration") || ss.getActiveSheet();
 //     
-//     // 1. Log to Google Sheet
+//     // Parse parameters from either JSON postData or URL parameters
+//     var p = {};
+//     if (e && e.postData && e.postData.contents) {
+//       try { p = JSON.parse(e.postData.contents); } catch (err) { p = e.parameter || {}; }
+//     } else {
+//       p = e.parameter || {};
+//     }
+//     
+//     var waiverUrl = "No waiver uploaded";
+//     
+//     // Handle Waiver File Upload to Google Drive (if attached)
+//     if (p.waiver_base64 && p.waiver_name) {
+//       try {
+//         var folderName = "CSI Workshop Waivers";
+//         var folders = DriveApp.getFoldersByName(folderName);
+//         var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(folderName);
+//         
+//         var base64Data = String(p.waiver_base64);
+//         var contentType = "application/octet-stream";
+//         if (base64Data.indexOf("data:") === 0) {
+//           var parts = base64Data.split(",");
+//           contentType = parts[0].split(";")[0].replace("data:", "");
+//           base64Data = parts[1];
+//         }
+//         
+//         // Fix spaces in base64 if needed
+//         base64Data = base64Data.replace(/ /g, "+");
+//         
+//         var blob = Utilities.newBlob(Utilities.base64Decode(base64Data), contentType, (p.name || "Student") + " - " + p.waiver_name);
+//         var file = folder.createFile(blob);
+//         file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+//         waiverUrl = file.getUrl();
+//       } catch (driveErr) {
+//         waiverUrl = "Upload Error: " + driveErr.toString();
+//       }
+//     }
+//
+//     // 1. Log to Google Sheet (Matching Columns A-H: Timestamp, Name, Email, School, Grade, Workshop Date, Notes, Waiver)
 //     sheet.appendRow([
 //       new Date(), 
 //       p.name || '', 
@@ -19,7 +56,8 @@
 //       p.school || '', 
 //       p.grade || '', 
 //       p.workshop_date || '', 
-//       p.notes || ''
+//       p.notes || '',
+//       waiverUrl
 //     ]);
 //
 //     // 2. Send Automated Confirmation Email to Student
@@ -40,13 +78,7 @@
 //             <tr>
 //               <td align="center">
 //                 <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; background-color: #FFFFFF; border: 1px solid #E5E5E0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
-//                   
-//                   <!-- CSI Crimson Accent Bar -->
-//                   <tr>
-//                     <td style="height: 4px; background-color: #CF142B;"></td>
-//                   </tr>
-//
-//                   <!-- CSI Brand Header -->
+//                   <tr><td style="height: 4px; background-color: #CF142B;"></td></tr>
 //                   <tr>
 //                     <td style="padding: 32px 36px 24px 36px; border-bottom: 1px solid #F0F0EC;">
 //                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -62,59 +94,34 @@
 //                       </table>
 //                     </td>
 //                   </tr>
-//
-//                   <!-- Main Content -->
 //                   <tr>
 //                     <td style="padding: 36px 36px 28px 36px;">
 //                       <h1 style="margin: 0 0 16px 0; font-size: 22px; font-weight: 700; color: #0A0A0A; letter-spacing: -0.02em; line-height: 1.3;">
 //                         Workshop Registration Confirmed
 //                       </h1>
-//                       
 //                       <p style="margin: 0 0 24px 0; font-size: 15px; line-height: 1.6; color: #333330;">
 //                         Hello ${studentName},<br/><br/>
 //                         Your registration for the <strong>CSI Biology Workshop</strong> has been confirmed. We look forward to seeing you!
 //                       </p>
-//
-//                       <!-- Event Summary Card -->
 //                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #FBFBFA; border: 1px solid #EBEBE6; border-left: 4px solid #CF142B; border-radius: 4px; margin-bottom: 28px;">
 //                         <tr>
 //                           <td style="padding: 20px 24px;">
-//                             <p style="margin: 0 0 12px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #CF142B; font-weight: 700;">
-//                               Event Details
-//                             </p>
+//                             <p style="margin: 0 0 12px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #CF142B; font-weight: 700;">Event Details</p>
 //                             <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size: 14px; line-height: 1.6; color: #1F1D1A;">
-//                               <tr>
-//                                 <td style="padding: 4px 0; font-weight: 600; width: 95px; color: #757570;">Program:</td>
-//                                 <td style="padding: 4px 0; font-weight: 600; color: #0A0A0A;">CSI Biology Workshop</td>
-//                               </tr>
-//                               <tr>
-//                                 <td style="padding: 4px 0; font-weight: 600; color: #757570;">Date:</td>
-//                                 <td style="padding: 4px 0; color: #0A0A0A;">Saturday, September 19, 2026</td>
-//                               </tr>
-//                               <tr>
-//                                 <td style="padding: 4px 0; font-weight: 600; color: #757570; vertical-align: top;">Location:</td>
-//                                 <td style="padding: 4px 0; color: #0A0A0A;">Union City Library<br/><span style="color: #666660; font-size: 13px;">34007 Alvarado-Niles Road, Union City, CA</span></td>
-//                               </tr>
-//                               <tr>
-//                                 <td style="padding: 4px 0; font-weight: 600; color: #757570;">Admission:</td>
-//                                 <td style="padding: 4px 0; font-weight: 600; color: #CF142B;">Free ($0) — All Materials Included</td>
-//                               </tr>
+//                               <tr><td style="padding: 4px 0; font-weight: 600; width: 95px; color: #757570;">Program:</td><td style="padding: 4px 0; font-weight: 600; color: #0A0A0A;">CSI Biology Workshop</td></tr>
+//                               <tr><td style="padding: 4px 0; font-weight: 600; color: #757570;">Date:</td><td style="padding: 4px 0; color: #0A0A0A;">Saturday, September 19, 2026</td></tr>
+//                               <tr><td style="padding: 4px 0; font-weight: 600; color: #757570; vertical-align: top;">Location:</td><td style="padding: 4px 0; color: #0A0A0A;">Union City Library<br/><span style="color: #666660; font-size: 13px;">34007 Alvarado-Niles Road, Union City, CA</span></td></tr>
+//                               <tr><td style="padding: 4px 0; font-weight: 600; color: #757570;">Admission:</td><td style="padding: 4px 0; font-weight: 600; color: #CF142B;">Free ($0) — All Materials Included</td></tr>
 //                             </table>
 //                           </td>
 //                         </tr>
 //                       </table>
-//
-//                       <!-- Workshop Curriculum -->
-//                       <h2 style="margin: 0 0 12px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #0A0A0A; font-weight: 700;">
-//                         Workshop Curriculum
-//                       </h2>
+//                       <h2 style="margin: 0 0 12px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #0A0A0A; font-weight: 700;">Workshop Curriculum</h2>
 //                       <ul style="margin: 0 0 28px 0; padding-left: 18px; font-size: 14px; line-height: 1.7; color: #333330;">
 //                         <li style="margin-bottom: 6px;"><strong>DNA Extraction:</strong> Extract genomic DNA using lab protocols.</li>
 //                         <li style="margin-bottom: 6px;"><strong>Bacterial Transformation:</strong> Introduce engineered plasmids into bacteria.</li>
 //                         <li style="margin-bottom: 6px;"><strong>Biotechnology Concepts:</strong> Explore modern lab techniques guided by student mentors.</li>
 //                       </ul>
-//
-//                       <!-- Student Info -->
 //                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top: 1px solid #EBEBE6; padding-top: 20px;">
 //                         <tr>
 //                           <td>
@@ -127,21 +134,17 @@
 //                           </td>
 //                         </tr>
 //                       </table>
-//
 //                       <p style="margin: 24px 0 0 0; font-size: 13px; line-height: 1.6; color: #666660;">
 //                         If you have questions or need to modify your registration, please reply directly to this email or contact us at <a href="mailto:stemcalifornia@gmail.com" style="color: #CF142B; text-decoration: underline;">stemcalifornia@gmail.com</a>.
 //                       </p>
 //                     </td>
 //                   </tr>
-//
-//                   <!-- Footer -->
 //                   <tr>
 //                     <td style="padding: 20px 36px; background-color: #F5F5F2; border-top: 1px solid #EBEBE6; text-align: center; font-size: 12px; color: #757570;">
 //                       <strong>California STEM Innovators</strong> • Unlocking STEM for every student<br/>
 //                       <a href="https://californiasteminnovators.org/" style="color: #CF142B; text-decoration: none; font-weight: 500;">californiasteminnovators.org</a>
 //                     </td>
 //                   </tr>
-//
 //                 </table>
 //               </td>
 //             </tr>
@@ -178,9 +181,10 @@
 //   }
 // }
 //
-// function testEmail() {
-//   var email = Session.getActiveUser().getEmail();
-//   MailApp.sendEmail(email, "Test Email", "Authorization test!");
+// function testAuth() {
+//   // Run this once in Apps Script Editor to grant Drive & Email permissions!
+//   DriveApp.getRootFolder();
+//   MailApp.sendEmail(Session.getActiveUser().getEmail(), "Permission Test", "Drive & Email access authorized!");
 // }
 // 4. Click Deploy > Manage deployments > Click the Edit Pencil > Select 'New version' > Click Deploy.
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ_NKlbEl_Oi1TO5xTBZiHyBLUfIHZkfJe0rdQFvxYsKe74D464iDAPMMAHMFDQCeR/exec';
@@ -407,12 +411,18 @@ if (signupForm) {
       }
     }
 
-    // 5. Encode form data as application/x-www-form-urlencoded
-    const formData = new FormData(signupForm);
-    const params = new URLSearchParams(formData);
-    if (waiverFileName) params.append("waiver_name", waiverFileName);
-    if (waiverBase64) params.append("waiver_base64", waiverBase64);
-    const bodyPayload = params.toString();
+    // 5. Build clean JSON payload
+    const notesInput = signupForm.querySelector('[name="notes"]');
+    const payload = {
+      name: nameInput ? nameInput.value.trim() : "",
+      email: emailInput ? emailInput.value.trim() : "",
+      school: schoolInput ? schoolInput.value.trim() : "",
+      grade: gradeSelect ? gradeSelect.value : "",
+      workshop_date: dateSelect ? dateSelect.value : "",
+      notes: notesInput ? notesInput.value.trim() : "",
+      waiver_name: waiverFileName,
+      waiver_base64: waiverBase64
+    };
 
     try {
       // 6. POST payload to Google Apps Script Web App URL with mode: 'no-cors'
@@ -420,9 +430,9 @@ if (signupForm) {
         method: "POST",
         mode: "no-cors",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "text/plain;charset=utf-8"
         },
-        body: bodyPayload
+        body: JSON.stringify(payload)
       });
 
       // Treat any non-throwing fetch response as success (no-cors response is opaque)
