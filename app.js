@@ -364,7 +364,7 @@ document.querySelectorAll(".lib-filters .filter").forEach((btn) => {
 });
 
 // Pre-select workshop date when clicking workshop card buttons
-document.querySelectorAll(".workshop-card[data-workshop], .select-ws-btn").forEach((element) => {
+document.querySelectorAll(".workshop-card[data-workshop]").forEach((element) => {
   element.addEventListener("click", () => {
     const card = element.closest("[data-workshop]");
     if (card) {
@@ -569,33 +569,5 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Floating Ad Banner Controller for index.html
-const adBanner = document.getElementById("ad-banner");
-const adCloseBtn = document.getElementById("ad-close-btn");
-const adSignupBtn = document.getElementById("ad-signup-btn");
-
-if (adBanner) {
-  const showBanner = () => adBanner.classList.add("active");
-  const hideBanner = () => adBanner.classList.remove("active");
-
-  // Show floating ad banner after 900ms if not dismissed in this session
-  if (!sessionStorage.getItem("csi_ad_dismissed")) {
-    setTimeout(showBanner, 900);
-  }
-
-  if (adCloseBtn) {
-    adCloseBtn.addEventListener("click", () => {
-      hideBanner();
-      sessionStorage.setItem("csi_ad_dismissed", "true");
-    });
-  }
-
-  if (adSignupBtn) {
-    adSignupBtn.addEventListener("click", () => {
-      hideBanner();
-      sessionStorage.setItem("csi_ad_dismissed", "true");
-    });
-  }
-}
 
 

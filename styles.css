@@ -1583,6 +1583,138 @@ section { position: relative; z-index: 2; }
   border: 1px solid var(--line);
   color: var(--ink-dim);
 }
+/* ========== Future Workshop Updates ========== */
+.updates-card {
+  max-width: min(100%, 740px);
+  margin: 0 auto;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  padding: clamp(20px, 3vw, 30px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+/* Gap between the workshop card and the updates card, in either order */
+.updates-card + .single-ws-card,
+.single-ws-card + .updates-card {
+  margin-top: 22px;
+}
+
+.ws-tag-full {
+  margin-right: auto;
+  background: rgba(207, 20, 43, 0.06);
+  border-color: rgba(207, 20, 43, 0.35);
+  color: var(--orange-deep);
+  font-weight: 600;
+}
+
+/* Extra breathing room between the workshops section head and its first card */
+.signup-section .sec-head {
+  padding-bottom: 36px;
+}
+
+/* Lede paragraph, sitting below the workshop card instead of inside .sec-head */
+.ws-lede-wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 42px var(--pad) 36px;
+}
+
+/* ========== Workshops sub-header (divides the two cards) ========== */
+.ws-subhead {
+  max-width: min(100%, 740px);
+  margin: 52px auto 26px;
+  padding-top: 34px;
+  border-top: 1px dashed var(--line-strong);
+}
+.ws-subhead-kicker {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.ws-subhead-title {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin: 12px 0 0;
+  color: var(--ink);
+}
+.ws-subhead-desc {
+  margin: 14px 0 0;
+  max-width: 58ch;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.ws-subhead-btn {
+  margin-top: 22px;
+  font-weight: 600;
+  border: 1px solid var(--line-strong);
+}
+.updates-body {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.updates-kicker {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.updates-title {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.4vw, 27px);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 8px 0 0;
+  color: var(--ink);
+}
+.updates-desc {
+  margin: 10px 0 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 60ch;
+}
+.updates-action {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.updates-note {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dimmer);
+}
+
+@media (max-width: 700px) {
+  .updates-card {
+    box-shadow: 4px 4px 0 0 var(--ink);
+  }
+  .updates-action {
+    width: 100%;
+    align-items: stretch;
+  }
+  .updates-action .btn {
+    justify-content: center;
+  }
+  .updates-note {
+    text-align: center;
+  }
+}
 
 .signup-card {
   background: var(--paper-2);
@@ -1858,83 +1990,9 @@ section { position: relative; z-index: 2; }
 ::selection { background: var(--orange); color: var(--paper); }
 ::-moz-selection { background: var(--orange); color: var(--paper); }
 
-/* ========== Floating Ad Banner ========== */
-.ad-banner {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 900;
-  background: var(--paper);
-  border: 2px solid var(--ink);
-  box-shadow: 6px 6px 0 0 var(--ink);
-  padding: 20px 22px;
-  max-width: 360px;
-  width: calc(100% - 48px);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transform: translateY(120px);
-  opacity: 0;
-  visibility: hidden;
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease, visibility 0.4s ease;
-}
-.ad-banner.active {
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-}
-.ad-close {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  background: transparent;
-  border: none;
-  font-size: 22px;
-  color: var(--ink-dim);
-  cursor: pointer;
-  padding: 2px 6px;
-  line-height: 1;
-}
-.ad-close:hover {
-  color: var(--orange);
-}
-.ad-badge {
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: var(--orange);
-  font-weight: 600;
-}
-.ad-title {
-  font-family: var(--serif);
-  font-size: 18px;
-  font-weight: 500;
-  margin: 0;
-  color: var(--ink);
-  line-height: 1.25;
-}
-.ad-desc {
-  font-size: 13px;
-  color: var(--ink-2);
-  margin: 0 0 4px;
-  line-height: 1.45;
-}
 .btn-sm {
   padding: 8px 16px;
   font-size: 13px;
-}
-.ad-btn {
-  align-self: flex-start;
-  margin-top: 4px;
-}
-
-@media (max-width: 600px) {
-  .ad-banner {
-    bottom: 16px;
-    right: 16px;
-    left: 16px;
-    width: auto;
-    max-width: none;
-  }
 }
 
 /* Dedicated Signup Page Wrappers */
@@ -1952,7 +2010,6 @@ section { position: relative; z-index: 2; }
   .hero-stats { margin-top: 20px; }
   .stat { padding: 12px 14px; min-height: 70px; }
   .scroll-cue { display: none; }
-  .ad-banner { padding: 12px 14px; bottom: 12px; right: 12px; }
 }
 
 /* Compact Mobile & Foldable Screens (< 360px width) */
