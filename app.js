@@ -243,7 +243,7 @@
 // }
 //
 // 5. Click Deploy > Manage deployments > Click the Edit Pencil > Select 'New version' > Click Deploy.
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ_NKlbEl_Oi1TO5xTBZiHyBLUfIHZkfJe0rdQFvxYsKe74D464iDAPMMAHMFDQCeR/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOx_5d6N6KWZYQwPMhfF3_izvRLjOF_fMnb4qrrPuFnuzDWQIsbZWgqI1tNxPPgCc9Tw/exec';
 
 // Nav hide on scroll down, show on scroll up
 const nav = document.querySelector('.nav');
