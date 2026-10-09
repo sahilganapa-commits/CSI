@@ -2,9 +2,10 @@
 // Paste your Web App URL below after deploying your Google Apps Script!
 // ------------------------------------------------------------------
 // Google Spreadsheet & Automated Confirmation Email Script Guide:
-// 1. Open your Google Spreadsheet (where registrations are logged).
-// 2. Click Extensions > Apps Script.
-// 3. Replace all code in Code.gs with the following script:
+// 1. Log in to Google with stemcalifornia@gmail.com so emails are sent directly from stemcalifornia@gmail.com.
+// 2. Open your Google Spreadsheet (where registrations are logged).
+// 3. Click Extensions > Apps Script.
+// 4. Replace all code in Code.gs with the following script:
 //
 // function doPost(e) {
 //   try {
@@ -19,35 +20,7 @@
 //       p = e.parameter || {};
 //     }
 //     
-//     var waiverUrl = "No waiver uploaded";
-//     
-//     // Handle Waiver File Upload to Google Drive (if attached)
-//     if (p.waiver_base64 && p.waiver_name) {
-//       try {
-//         var folderName = "CSI Workshop Waivers";
-//         var folders = DriveApp.getFoldersByName(folderName);
-//         var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(folderName);
-//         
-//         var base64Data = String(p.waiver_base64);
-//         var contentType = "application/octet-stream";
-//         if (base64Data.indexOf("data:") === 0) {
-//           var parts = base64Data.split(",");
-//           contentType = parts[0].split(";")[0].replace("data:", "");
-//           base64Data = parts[1];
-//         }
-//         
-//         base64Data = base64Data.replace(/ /g, "+");
-//         
-//         var blob = Utilities.newBlob(Utilities.base64Decode(base64Data), contentType, (p.name || "Student") + " - " + p.waiver_name);
-//         var file = folder.createFile(blob);
-//         file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-//         waiverUrl = file.getUrl();
-//       } catch (driveErr) {
-//         waiverUrl = "Upload Error: " + driveErr.toString();
-//       }
-//     }
-//
-//     // 1. Log to Google Sheet (Timestamp, Name, Email, School, Grade, Workshop Date, Notes, Waiver)
+//     // 1. Log to Google Sheet (Timestamp, Name, Email, School, Grade, Workshop Date, Notes)
 //     sheet.appendRow([
 //       new Date(), 
 //       p.name || '', 
@@ -55,11 +28,10 @@
 //       p.school || '', 
 //       p.grade || '', 
 //       p.workshop_date || '', 
-//       p.notes || '',
-//       waiverUrl
+//       p.notes || ''
 //     ]);
 //
-//     // 2. Send Automated Confirmation Email to Student
+//     // 2. Send Automated Dynamic Confirmation Email to Student from stemcalifornia@gmail.com
 //     var emailAddress = p.email ? String(p.email).trim() : '';
 //     if (emailAddress !== '') {
 //       var studentName = p.name ? String(p.name).trim() : 'Student';
@@ -78,30 +50,24 @@
 //         workshopTitle = "CSI AI Workshop: Learn to Build with AI";
 //         eventDate = "Saturday, October 24, 2026";
 //         eventTime = "10:00 AM – 12:00 PM PDT";
-//         eventLocation = "Greenhouse Room, San Lorenzo Library";
-//         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Hands-on artificial intelligence & machine learning fundamentals</li><li style='margin-bottom: 4px;'>Interactive AI tool building & prompt engineering</li><li style='margin-bottom: 0;'>Creating your own AI-powered project guided by student mentors</li></ul>";
-//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>A laptop or tablet (if available; loaner assistance available on site)</li><li style='margin-bottom: 0;'>Curiosity for building with modern AI</li></ul>";
+//         eventLocation = "Greenhouse Room, San Lorenzo Library (395 Paseo Grande, San Lorenzo, CA 94580)";
+//         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Hands-on artificial intelligence & machine learning fundamentals</li><li style='margin-bottom: 4px;'>Interactive AI tool building & prompt engineering</li><li style='margin-bottom: 0;'>Creating your own AI-powered project guided by experienced student mentors</li></ul>";
+//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>A laptop or tablet (if available; loaners available on site if needed)</li><li style='margin-bottom: 0;'>Curiosity for building with modern AI tools!</li></ul>";
 //       } else if (workshopChoice.indexOf("Chem Workshop") !== -1) {
-//         subject = "You're Registered! CSI Chem Workshop — Nov 15";
-//         workshopTitle = "CSI Chem Workshop: Interactive Activities & Guest Speakers";
+//         subject = "You're Registered! CSI Chemistry Workshop — Nov 15";
+//         workshopTitle = "CSI Chemistry Workshop: Hands-on Experiments & Keynote Speakers";
 //         eventDate = "Sunday, November 15, 2026";
 //         eventTime = "2:30 PM – 4:30 PM PST";
-//         eventLocation = "CSI Workshop Venue (Bay Area - details sent prior to event)";
-//         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Hands-on chemistry demonstrations & exciting lab experiments</li><li style='margin-bottom: 4px;'>Keynote talks & Q&A with guest speakers in chemistry & STEM</li><li style='margin-bottom: 0;'>Interactive group science challenges and giveaways</li></ul>";
-//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Closed-toe shoes</li><li style='margin-bottom: 0;'>Clothes that can get a little messy during experiments</li></ul>";
-//       } else if (workshopChoice.indexOf("Biology") !== -1) {
-//         subject = "You're Registered! CSI Biotechnology Workshop — Sep 19";
-//         workshopTitle = "CSI Biotechnology Workshop: From DNA to Discovery";
-//         eventDate = "Saturday, September 19, 2026";
-//         eventTime = "3:00 PM – 6:00 PM PDT";
-//         eventLocation = "Union City Library, 34007 Alvarado Niles Rd, Union City, CA 94587";
-//         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Extracting visible DNA from a strawberry (take home a vial!)</li><li style='margin-bottom: 4px;'>Bacterial transformation lab using miniPCR's True Blue kit</li><li style='margin-bottom: 0;'>Micropipetting practice and a gel electrophoresis demo</li></ul>";
-//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Closed-toe shoes</li><li style='margin-bottom: 0;'>Clothes that can get a little messy</li></ul>";
+//         eventLocation = "CSI Workshop Venue (Bay Area — specific room details sent closer to the event)";
+//         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Hands-on chemistry demonstrations & exciting lab experiments</li><li style='margin-bottom: 4px;'>Keynote talks & interactive Q&A with guest speakers in chemistry & STEM</li><li style='margin-bottom: 0;'>Interactive group science challenges and giveaways</li></ul>";
+//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Closed-toe shoes (required for safety during experiments)</li><li style='margin-bottom: 0;'>Clothes that can get a little messy during demonstrations</li></ul>";
 //       } else {
+//         subject = "You're Registered! CSI Workshop Confirmation";
+//         workshopTitle = "CSI Workshop";
 //         eventDate = workshopChoice;
 //         eventTime = "See workshop schedule";
 //         eventLocation = "California STEM Innovators Venue";
-//         whatYouWillDo = "Hands-on STEM activities, guided experiments, and mentoring!";
+//         whatYouWillDo = "<p style='margin:0;'>Exciting hands-on STEM activities, guided experiments, and mentoring!</p>";
 //       }
 //       
 //       var htmlBody = `
@@ -148,7 +114,7 @@
 //                       </p>
 //                       
 //                       <p style="margin: 0 0 24px 0; font-size: 15px; color: #0A0A0A; line-height: 1.6;">
-//                         Thanks for registering for the <strong>\${workshopTitle}</strong> hosted by California STEM Innovators (CSI)! We're excited to have you join us.
+//                         Thanks for registering for the <strong>\${workshopTitle}</strong> hosted by California STEM Innovators (CSI)! We're thrilled to have you join us.
 //                       </p>
 //
 //                       <!-- Box 1: EVENT DETAILS -->
@@ -206,21 +172,7 @@
 //                         </tr>
 //                       </table>
 //
-//                       <!-- Box 5: WAIVER -->
-//                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid #0A0A0A; border-radius: 6px; margin-bottom: 20px; overflow: hidden;">
-//                         <tr>
-//                           <td style="background-color: #F5F5F2; padding: 10px 18px; border-bottom: 1px solid #0A0A0A; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A0A0A;">
-//                             WAIVER
-//                           </td>
-//                         </tr>
-//                         <tr>
-//                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A; line-height: 1.6;">
-//                             Good news — your signed waiver was collected as part of your online registration. If you need to update any information on it (allergies, emergency contact, etc.), just reply to this email.
-//                           </td>
-//                         </tr>
-//                       </table>
-//
-//                       <!-- Box 6: QUESTIONS? -->
+//                       <!-- Box 5: QUESTIONS? -->
 //                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid #0A0A0A; border-radius: 6px; margin-bottom: 24px; overflow: hidden;">
 //                         <tr>
 //                           <td style="background-color: #F5F5F2; padding: 10px 18px; border-bottom: 1px solid #0A0A0A; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A0A0A;">
@@ -229,7 +181,7 @@
 //                         </tr>
 //                         <tr>
 //                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A; line-height: 1.6;">
-//                             Reach out to us at <a href="mailto:stemcalifornia@gmail.com" style="color: #CF142B; font-weight: 700; text-decoration: underline;">stemcalifornia@gmail.com</a> with any questions.
+//                             Reach out to us anytime at <a href="mailto:stemcalifornia@gmail.com" style="color: #CF142B; font-weight: 700; text-decoration: underline;">stemcalifornia@gmail.com</a>.
 //                           </td>
 //                         </tr>
 //                       </table>
@@ -277,7 +229,11 @@
 //         "California STEM Innovators (CSI)\n" +
 //         "https://californiasteminnovators.org";
 //
-//       MailApp.sendEmail(emailAddress, subject, plainBody, { htmlBody: htmlBody });
+//       MailApp.sendEmail(emailAddress, subject, plainBody, {
+//         name: "California STEM Innovators",
+//         replyTo: "stemcalifornia@gmail.com",
+//         htmlBody: htmlBody
+//       });
 //     }
 //
 //     return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
@@ -286,11 +242,7 @@
 //   }
 // }
 //
-// function testAuth() {
-//   DriveApp.getRootFolder();
-//   MailApp.sendEmail(Session.getActiveUser().getEmail(), "Permission Test", "Drive & Email access authorized!");
-// }
-// 4. Click Deploy > Manage deployments > Click the Edit Pencil > Select 'New version' > Click Deploy.
+// 5. Click Deploy > Manage deployments > Click the Edit Pencil > Select 'New version' > Click Deploy.
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ_NKlbEl_Oi1TO5xTBZiHyBLUfIHZkfJe0rdQFvxYsKe74D464iDAPMMAHMFDQCeR/exec';
 
 // Nav hide on scroll down, show on scroll up
@@ -454,39 +406,31 @@ if (signupForm) {
       return;
     }
 
-    // 2. Client-side validation (including mandatory waiver file upload)
+    // 2. Client-side validation
     const nameInput = signupForm.querySelector('[name="name"]');
     const emailInput = signupForm.querySelector('[name="email"]');
     const schoolInput = signupForm.querySelector('[name="school"]');
     const gradeSelect = signupForm.querySelector('[name="grade"]');
     const dateSelect = signupForm.querySelector('[name="workshop_date"]');
-    const waiverInput = signupForm.querySelector('#signup-waiver');
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const hasWaiver = waiverInput && waiverInput.files && waiverInput.files.length > 0;
     const isValid =
       nameInput && nameInput.value.trim() !== "" &&
       emailInput && emailRegex.test(emailInput.value.trim()) &&
       schoolInput && schoolInput.value.trim() !== "" &&
       gradeSelect && gradeSelect.value !== "" &&
-      dateSelect && dateSelect.value !== "" &&
-      hasWaiver;
+      dateSelect && dateSelect.value !== "";
 
     if (!isValid) {
       if (valErr) {
         valErr.hidden = false;
-        if (!hasWaiver) {
-          valErr.textContent = "⚠️ Please attach your completed & signed participant waiver before submitting registration.";
-        } else {
-          valErr.textContent = "⚠️ Please fill out all required fields with a valid email address.";
-        }
+        valErr.textContent = "⚠️ Please fill out all required fields with a valid email address.";
       }
       if (!nameInput || !nameInput.value.trim()) nameInput && nameInput.focus();
       else if (!emailInput || !emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) emailInput && emailInput.focus();
       else if (!schoolInput || !schoolInput.value.trim()) schoolInput && schoolInput.focus();
       else if (!gradeSelect || !gradeSelect.value) gradeSelect && gradeSelect.focus();
       else if (!dateSelect || !dateSelect.value) dateSelect && dateSelect.focus();
-      else if (!hasWaiver) waiverInput && waiverInput.focus();
       return;
     }
 
@@ -494,28 +438,10 @@ if (signupForm) {
     const originalBtnText = signupSubmitBtn ? signupSubmitBtn.innerHTML : "Complete Registration →";
     if (signupSubmitBtn) {
       signupSubmitBtn.disabled = true;
-      signupSubmitBtn.innerHTML = "Uploading waiver & signing up...";
+      signupSubmitBtn.innerHTML = "Signing up...";
     }
 
-    // 4. Convert waiver file to base64 if attached
-    let waiverFileName = "";
-    let waiverBase64 = "";
-    if (hasWaiver && waiverInput.files[0]) {
-      const file = waiverInput.files[0];
-      waiverFileName = file.name;
-      try {
-        waiverBase64 = await new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (evt) => resolve(evt.target.result);
-          reader.onerror = () => resolve("");
-          reader.readAsDataURL(file);
-        });
-      } catch (fileErr) {
-        console.warn("Waiver file read error:", fileErr);
-      }
-    }
-
-    // 5. Build clean JSON payload
+    // 4. Build clean JSON payload
     const notesInput = signupForm.querySelector('[name="notes"]');
     const payload = {
       name: nameInput ? nameInput.value.trim() : "",
@@ -523,13 +449,11 @@ if (signupForm) {
       school: schoolInput ? schoolInput.value.trim() : "",
       grade: gradeSelect ? gradeSelect.value : "",
       workshop_date: dateSelect ? dateSelect.value : "",
-      notes: notesInput ? notesInput.value.trim() : "",
-      waiver_name: waiverFileName,
-      waiver_base64: waiverBase64
+      notes: notesInput ? notesInput.value.trim() : ""
     };
 
     try {
-      // 6. POST payload to Google Apps Script Web App URL with mode: 'no-cors'
+      // 5. POST payload to Google Apps Script Web App URL with mode: 'no-cors'
       await fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
