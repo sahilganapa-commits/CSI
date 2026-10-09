@@ -242,7 +242,11 @@
 //   }
 // }
 //
-// 5. Click Deploy > Manage deployments > Click the Edit Pencil > Select 'New version' > Click Deploy.
+// function doGet(e) {
+//   return ContentService.createTextOutput("CSI Workshop Registration Endpoint is active!").setMimeType(ContentService.MimeType.TEXT);
+// }
+//
+// 5. Click Deploy > Manage deployments > Click the Edit Pencil > Select 'New version' > Make sure 'Who has access' is set to 'Anyone' > Click Deploy.
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOx_5d6N6KWZYQwPMhfF3_izvRLjOF_fMnb4qrrPuFnuzDWQIsbZWgqI1tNxPPgCc9Tw/exec';
 
 // Nav hide on scroll down, show on scroll up
