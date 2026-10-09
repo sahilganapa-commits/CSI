@@ -11,7 +11,7 @@
 //     var ss = SpreadsheetApp.getActiveSpreadsheet();
 //     var sheet = ss.getSheetByName("Workshop_Registration") || ss.getActiveSheet();
 //     
-//     // Parse parameters from either JSON postData or URL parameters
+//     // Parse parameters from JSON postData or URL parameters
 //     var p = {};
 //     if (e && e.postData && e.postData.contents) {
 //       try { p = JSON.parse(e.postData.contents); } catch (err) { p = e.parameter || {}; }
@@ -36,7 +36,6 @@
 //           base64Data = parts[1];
 //         }
 //         
-//         // Fix spaces in base64 if needed
 //         base64Data = base64Data.replace(/ /g, "+");
 //         
 //         var blob = Utilities.newBlob(Utilities.base64Decode(base64Data), contentType, (p.name || "Student") + " - " + p.waiver_name);
@@ -48,7 +47,7 @@
 //       }
 //     }
 //
-//     // 1. Log to Google Sheet (Matching Columns A-H: Timestamp, Name, Email, School, Grade, Workshop Date, Notes, Waiver)
+//     // 1. Log to Google Sheet (Timestamp, Name, Email, School, Grade, Workshop Date, Notes, Waiver)
 //     sheet.appendRow([
 //       new Date(), 
 //       p.name || '', 
@@ -64,7 +63,46 @@
 //     var emailAddress = p.email ? String(p.email).trim() : '';
 //     if (emailAddress !== '') {
 //       var studentName = p.name ? String(p.name).trim() : 'Student';
-//       var subject = "You're Registered! CSI Biotechnology Workshop — Sep 19";
+//       var workshopChoice = p.workshop_date ? String(p.workshop_date) : '';
+//       
+//       var subject = "You're Registered! CSI Workshop Confirmation";
+//       var workshopTitle = "CSI Workshop";
+//       var eventDate = "";
+//       var eventTime = "";
+//       var eventLocation = "";
+//       var whatYouWillDo = "";
+//       var whatToBring = "Curiosity and eagerness to learn!";
+//       
+//       if (workshopChoice.indexOf("AI Workshop") !== -1) {
+//         subject = "You're Registered! CSI AI Workshop — Oct 24";
+//         workshopTitle = "CSI AI Workshop: Learn to Build with AI";
+//         eventDate = "Saturday, October 24, 2026";
+//         eventTime = "10:00 AM – 12:00 PM PDT";
+//         eventLocation = "Greenhouse Room, San Lorenzo Library";
+//         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Hands-on artificial intelligence & machine learning fundamentals</li><li style='margin-bottom: 4px;'>Interactive AI tool building & prompt engineering</li><li style='margin-bottom: 0;'>Creating your own AI-powered project guided by student mentors</li></ul>";
+//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>A laptop or tablet (if available; loaner assistance available on site)</li><li style='margin-bottom: 0;'>Curiosity for building with modern AI</li></ul>";
+//       } else if (workshopChoice.indexOf("Chem Workshop") !== -1) {
+//         subject = "You're Registered! CSI Chem Workshop — Nov 15";
+//         workshopTitle = "CSI Chem Workshop: Interactive Activities & Guest Speakers";
+//         eventDate = "Sunday, November 15, 2026";
+//         eventTime = "2:30 PM – 4:30 PM PST";
+//         eventLocation = "CSI Workshop Venue (Bay Area - details sent prior to event)";
+//         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Hands-on chemistry demonstrations & exciting lab experiments</li><li style='margin-bottom: 4px;'>Keynote talks & Q&A with guest speakers in chemistry & STEM</li><li style='margin-bottom: 0;'>Interactive group science challenges and giveaways</li></ul>";
+//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Closed-toe shoes</li><li style='margin-bottom: 0;'>Clothes that can get a little messy during experiments</li></ul>";
+//       } else if (workshopChoice.indexOf("Biology") !== -1) {
+//         subject = "You're Registered! CSI Biotechnology Workshop — Sep 19";
+//         workshopTitle = "CSI Biotechnology Workshop: From DNA to Discovery";
+//         eventDate = "Saturday, September 19, 2026";
+//         eventTime = "3:00 PM – 6:00 PM PDT";
+//         eventLocation = "Union City Library, 34007 Alvarado Niles Rd, Union City, CA 94587";
+//         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Extracting visible DNA from a strawberry (take home a vial!)</li><li style='margin-bottom: 4px;'>Bacterial transformation lab using miniPCR's True Blue kit</li><li style='margin-bottom: 0;'>Micropipetting practice and a gel electrophoresis demo</li></ul>";
+//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Closed-toe shoes</li><li style='margin-bottom: 0;'>Clothes that can get a little messy</li></ul>";
+//       } else {
+//         eventDate = workshopChoice;
+//         eventTime = "See workshop schedule";
+//         eventLocation = "California STEM Innovators Venue";
+//         whatYouWillDo = "Hands-on STEM activities, guided experiments, and mentoring!";
+//       }
 //       
 //       var htmlBody = `
 //         <!DOCTYPE html>
@@ -79,7 +117,7 @@
 //               <td align="center">
 //                 <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 620px; background-color: #FFFFFF; border: 2px solid #0A0A0A; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);">
 //                   
-//                   <!-- Top Crimson Accent Bar -->
+//                   <!-- Top Accent Bar -->
 //                   <tr>
 //                     <td style="height: 6px; background-color: #CF142B;"></td>
 //                   </tr>
@@ -106,11 +144,11 @@
 //                     <td style="padding: 30px; color: #0A0A0A; font-size: 15px; line-height: 1.6;">
 //                       
 //                       <p style="margin: 0 0 18px 0; font-size: 16px; font-weight: 700; color: #0A0A0A;">
-//                         Hi ${studentName},
+//                         Hi \${studentName},
 //                       </p>
 //                       
 //                       <p style="margin: 0 0 24px 0; font-size: 15px; color: #0A0A0A; line-height: 1.6;">
-//                         Thanks for registering <strong>${studentName}</strong> for the <strong>CSI Biotechnology Workshop: From DNA to Discovery</strong>, hosted by California STEM Innovators (CSI)! We're excited to have you join us.
+//                         Thanks for registering for the <strong>\${workshopTitle}</strong> hosted by California STEM Innovators (CSI)! We're excited to have you join us.
 //                       </p>
 //
 //                       <!-- Box 1: EVENT DETAILS -->
@@ -118,9 +156,9 @@
 //                         <tr>
 //                           <td style="padding: 16px 20px;">
 //                             <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #CF142B; margin-bottom: 10px;">EVENT DETAILS</div>
-//                             <p style="margin: 0 0 6px 0; font-size: 14.5px; color: #0A0A0A;"><strong>Date:</strong> Saturday, September 19, 2026</p>
-//                             <p style="margin: 0 0 6px 0; font-size: 14.5px; color: #0A0A0A;"><strong>Time:</strong> 3:00 PM – 6:00 PM PDT (please plan for pickup at 6:00 PM)</p>
-//                             <p style="margin: 0; font-size: 14.5px; color: #0A0A0A;"><strong>Location:</strong> Union City Library, 34007 Alvarado Niles Rd, Union City, CA 94587</p>
+//                             <p style="margin: 0 0 6px 0; font-size: 14.5px; color: #0A0A0A;"><strong>Date:</strong> \${eventDate}</p>
+//                             <p style="margin: 0 0 6px 0; font-size: 14.5px; color: #0A0A0A;"><strong>Time:</strong> \${eventTime}</p>
+//                             <p style="margin: 0; font-size: 14.5px; color: #0A0A0A;"><strong>Location:</strong> \${eventLocation}</p>
 //                           </td>
 //                         </tr>
 //                       </table>
@@ -134,12 +172,7 @@
 //                         </tr>
 //                         <tr>
 //                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A;">
-//                             <p style="margin: 0 0 10px 0;">Students will get hands-on with real biotechnology techniques, including:</p>
-//                             <ul style="margin: 0; padding-left: 20px; line-height: 1.7;">
-//                               <li style="margin-bottom: 4px;">Extracting visible DNA from a strawberry (they'll take home a vial!)</li>
-//                               <li style="margin-bottom: 4px;">A bacterial transformation lab using miniPCR's True Blue kit</li>
-//                               <li style="margin-bottom: 0;">Micropipetting practice and a gel electrophoresis demo</li>
-//                             </ul>
+//                             \${whatYouWillDo}
 //                           </td>
 //                         </tr>
 //                       </table>
@@ -153,15 +186,27 @@
 //                         </tr>
 //                         <tr>
 //                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A;">
-//                             <ul style="margin: 0; padding-left: 20px; line-height: 1.7;">
-//                               <li style="margin-bottom: 4px;">Closed-toe shoes</li>
-//                               <li style="margin-bottom: 0;">Clothes that can get a little messy</li>
-//                             </ul>
+//                             \${whatToBring}
 //                           </td>
 //                         </tr>
 //                       </table>
-
-//                       <!-- Box 4: WAIVER -->
+//
+//                       <!-- Box 4: COMMUNITY & DISCORD -->
+//                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid #0A0A0A; border-radius: 6px; margin-bottom: 20px; overflow: hidden;">
+//                         <tr>
+//                           <td style="background-color: #F5F5F2; padding: 10px 18px; border-bottom: 1px solid #0A0A0A; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A0A0A;">
+//                             JOIN OUR DISCORD COMMUNITY
+//                           </td>
+//                         </tr>
+//                         <tr>
+//                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A; line-height: 1.6;">
+//                             Make sure to join our Discord community for real-time workshop updates, resources, and Q&amp;A: <br/>
+//                             <a href="https://discord.gg/dVgQkf4YHT" style="color: #CF142B; font-weight: 700; text-decoration: underline;">https://discord.gg/dVgQkf4YHT</a>
+//                           </td>
+//                         </tr>
+//                       </table>
+//
+//                       <!-- Box 5: WAIVER -->
 //                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid #0A0A0A; border-radius: 6px; margin-bottom: 20px; overflow: hidden;">
 //                         <tr>
 //                           <td style="background-color: #F5F5F2; padding: 10px 18px; border-bottom: 1px solid #0A0A0A; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A0A0A;">
@@ -170,40 +215,12 @@
 //                         </tr>
 //                         <tr>
 //                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A; line-height: 1.6;">
-//                             Good news — your signed waiver was already collected as part of registration, so there's nothing further needed here. If you need to update any information on it (allergies, emergency contact, etc.), just reply to this email.
+//                             Good news — your signed waiver was collected as part of your online registration. If you need to update any information on it (allergies, emergency contact, etc.), just reply to this email.
 //                           </td>
 //                         </tr>
 //                       </table>
-
-//                       <!-- Box 5: FOOD & ALLERGIES -->
-//                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid #0A0A0A; border-radius: 6px; margin-bottom: 20px; overflow: hidden;">
-//                         <tr>
-//                           <td style="background-color: #F5F5F2; padding: 10px 18px; border-bottom: 1px solid #0A0A0A; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A0A0A;">
-//                             FOOD &amp; ALLERGIES
-//                           </td>
-//                         </tr>
-//                         <tr>
-//                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A; line-height: 1.6;">
-//                             Water will be provided. Snacks are still being finalized — we'll follow up with details closer to the event. Please note this workshop may involve strawberries or other foods; let us know if you have a related allergy.
-//                           </td>
-//                         </tr>
-//                       </table>
-
-//                       <!-- Box 6: DROP-OFF & PICKUP -->
-//                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid #0A0A0A; border-radius: 6px; margin-bottom: 20px; overflow: hidden;">
-//                         <tr>
-//                           <td style="background-color: #F5F5F2; padding: 10px 18px; border-bottom: 1px solid #0A0A0A; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A0A0A;">
-//                             DROP-OFF &amp; PICKUP
-//                           </td>
-//                         </tr>
-//                         <tr>
-//                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A; line-height: 1.6;">
-//                             Please plan to drop off a few minutes before 3:00 PM and pick up promptly at 5:00 PM from the Union City Library. A CSI facilitator will be present at check-in.
-//                           </td>
-//                         </tr>
-//                       </table>
-
-//                       <!-- Box 7: QUESTIONS? -->
+//
+//                       <!-- Box 6: QUESTIONS? -->
 //                       <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid #0A0A0A; border-radius: 6px; margin-bottom: 24px; overflow: hidden;">
 //                         <tr>
 //                           <td style="background-color: #F5F5F2; padding: 10px 18px; border-bottom: 1px solid #0A0A0A; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A0A0A;">
@@ -212,31 +229,31 @@
 //                         </tr>
 //                         <tr>
 //                           <td style="padding: 16px 20px; background-color: #FFFFFF; font-size: 14.5px; color: #0A0A0A; line-height: 1.6;">
-//                             Reach out to us at <a href="mailto:stemcalifornia@gmail.com" style="color: #CF142B; font-weight: 700; text-decoration: underline;">stemcalifornia@gmail.com</a> with any questions before the event.
+//                             Reach out to us at <a href="mailto:stemcalifornia@gmail.com" style="color: #CF142B; font-weight: 700; text-decoration: underline;">stemcalifornia@gmail.com</a> with any questions.
 //                           </td>
 //                         </tr>
 //                       </table>
-
+//
 //                       <p style="margin: 0 0 16px 0; font-size: 15px; font-weight: 700; color: #0A0A0A;">
 //                         We can't wait to see you there!
 //                       </p>
-
+//
 //                       <p style="margin: 0; font-size: 14.5px; color: #0A0A0A; line-height: 1.5;">
 //                         Best,<br/>
 //                         <strong style="color: #0A0A0A;">California STEM Innovators (CSI)</strong><br/>
 //                         <a href="https://californiasteminnovators.org" style="color: #CF142B; text-decoration: none; font-weight: 700;">californiasteminnovators.org</a>
 //                       </p>
-
+//
 //                     </td>
 //                   </tr>
-
+//
 //                   <!-- Footer Bar -->
 //                   <tr>
 //                     <td style="padding: 16px 30px; background-color: #0A0A0A; text-align: center; font-size: 12px; color: #FFFFFF; font-weight: 600;">
 //                       California STEM Innovators • Unlocking STEM for every student
 //                     </td>
 //                   </tr>
-
+//
 //                 </table>
 //               </td>
 //             </tr>
@@ -246,27 +263,15 @@
 //       `;
 //
 //       var plainBody = "Hi " + studentName + ",\n\n" +
-//         "Thanks for registering " + studentName + " for the CSI Biotechnology Workshop: From DNA to Discovery, hosted by California STEM Innovators (CSI)! We're excited to have you join us.\n\n" +
+//         "Thanks for registering for the " + workshopTitle + " hosted by California STEM Innovators (CSI)! We're excited to have you join us.\n\n" +
 //         "EVENT DETAILS\n" +
-//         "Date: Saturday, September 19, 2026\n" +
-//         "Time: 3:00 PM – 6:00 PM PDT (please plan for pickup at 6:00 PM)\n" +
-//         "Location: Union City Library, 34007 Alvarado Niles Rd, Union City, CA 94587\n\n" +
-//         "WHAT YOU WILL DO\n" +
-//         "Students will get hands-on with real biotechnology techniques, including:\n" +
-//         "- Extracting visible DNA from a strawberry (they'll take home a vial!)\n" +
-//         "- A bacterial transformation lab using miniPCR's True Blue kit\n" +
-//         "- Micropipetting practice and a gel electrophoresis demo\n\n" +
-//         "WHAT TO BRING / WEAR\n" +
-//         "- Closed-toe shoes\n" +
-//         "- Clothes that can get a little messy\n\n" +
-//         "WAIVER\n" +
-//         "Good news — your signed waiver was already collected as part of registration, so there's nothing further needed here. If you need to update any information on it (allergies, emergency contact, etc.), just reply to this email.\n\n" +
-//         "FOOD & ALLERGIES\n" +
-//         "Water will be provided. Snacks are still being finalized — we'll follow up with details closer to the event. Please note this workshop may involve strawberries or other foods; let us know if you have a related allergy.\n\n" +
-//         "DROP-OFF & PICKUP\n" +
-//         "Please plan to drop off a few minutes before 3:00 PM and pick up promptly at 5:00 PM from the Union City Library. A CSI facilitator will be present at check-in.\n\n" +
+//         "Date: " + eventDate + "\n" +
+//         "Time: " + eventTime + "\n" +
+//         "Location: " + eventLocation + "\n\n" +
+//         "JOIN OUR DISCORD COMMUNITY\n" +
+//         "https://discord.gg/dVgQkf4YHT\n\n" +
 //         "QUESTIONS?\n" +
-//         "Reach out to us at stemcalifornia@gmail.com with any questions before the event.\n\n" +
+//         "Reach out to us at stemcalifornia@gmail.com with any questions.\n\n" +
 //         "We can't wait to see you there!\n\n" +
 //         "Best,\n" +
 //         "California STEM Innovators (CSI)\n" +
@@ -282,7 +287,6 @@
 // }
 //
 // function testAuth() {
-//   // Run this once in Apps Script Editor to grant Drive & Email permissions!
 //   DriveApp.getRootFolder();
 //   MailApp.sendEmail(Session.getActiveUser().getEmail(), "Permission Test", "Drive & Email access authorized!");
 // }
