@@ -59,7 +59,7 @@
 //         workshopTitle = "CSI Chemistry Workshop: Hands-on Experiments & Keynote Speakers";
 //         eventDate = "Sunday, November 15, 2026";
 //         eventTime = "2:30 PM – 4:30 PM PST";
-//         eventLocation = "Newark Library (specific room details sent closer to the event)";
+//         eventLocation = "First Floor, Newark Library";
 //         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Hands-on chemistry demonstrations & exciting lab experiments</li><li style='margin-bottom: 4px;'>Keynote talks & interactive Q&A with guest speakers in chemistry & STEM</li><li style='margin-bottom: 0;'>Interactive group science challenges and giveaways</li></ul>";
 //         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Closed-toe shoes (required for safety during experiments)</li><li style='margin-bottom: 0;'>Clothes that can get a little messy during demonstrations</li></ul>";
 //       } else {
