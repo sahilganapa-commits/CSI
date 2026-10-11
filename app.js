@@ -20,7 +20,7 @@
 //       p = e.parameter || {};
 //     }
 //     
-//     // 1. Log to Google Sheet (Timestamp, Name, Email, School, Grade, Workshop Date, Notes)
+//     // 1. Log to Google Sheet (Timestamp, Name, Email, School, Grade, Workshop Date, Notes, Preferred Language)
 //     sheet.appendRow([
 //       new Date(), 
 //       p.name || '', 
@@ -28,7 +28,8 @@
 //       p.school || '', 
 //       p.grade || '', 
 //       p.workshop_date || '', 
-//       p.notes || ''
+//       p.notes || '', 
+//       p.language || ''
 //     ]);
 //
 //     // 2. Send Automated Dynamic Confirmation Email to Student from stemcalifornia@gmail.com
@@ -416,6 +417,7 @@ if (signupForm) {
     const schoolInput = signupForm.querySelector('[name="school"]');
     const gradeSelect = signupForm.querySelector('[name="grade"]');
     const dateSelect = signupForm.querySelector('[name="workshop_date"]');
+    const languageSelect = signupForm.querySelector('[name="language"]');
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValid =
@@ -423,7 +425,8 @@ if (signupForm) {
       emailInput && emailRegex.test(emailInput.value.trim()) &&
       schoolInput && schoolInput.value.trim() !== "" &&
       gradeSelect && gradeSelect.value !== "" &&
-      dateSelect && dateSelect.value !== "";
+      dateSelect && dateSelect.value !== "" &&
+      languageSelect && languageSelect.value !== "";
 
     if (!isValid) {
       if (valErr) {
@@ -435,6 +438,7 @@ if (signupForm) {
       else if (!schoolInput || !schoolInput.value.trim()) schoolInput && schoolInput.focus();
       else if (!gradeSelect || !gradeSelect.value) gradeSelect && gradeSelect.focus();
       else if (!dateSelect || !dateSelect.value) dateSelect && dateSelect.focus();
+      else if (!languageSelect || !languageSelect.value) languageSelect && languageSelect.focus();
       return;
     }
 
@@ -453,7 +457,8 @@ if (signupForm) {
       school: schoolInput ? schoolInput.value.trim() : "",
       grade: gradeSelect ? gradeSelect.value : "",
       workshop_date: dateSelect ? dateSelect.value : "",
-      notes: notesInput ? notesInput.value.trim() : ""
+      notes: notesInput ? notesInput.value.trim() : "",
+      language: languageSelect ? languageSelect.value : ""
     };
 
     try {
