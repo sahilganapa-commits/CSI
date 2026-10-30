@@ -46,14 +46,14 @@
 //       var whatYouWillDo = "";
 //       var whatToBring = "Curiosity and eagerness to learn!";
 //       
-//       if (workshopChoice.indexOf("AI Workshop") !== -1) {
-//         subject = "You're Registered! CSI AI Workshop — Oct 24";
-//         workshopTitle = "CSI AI Workshop: Learn to Build with AI";
-//         eventDate = "Saturday, October 24, 2026";
-//         eventTime = "10:00 AM – 12:00 PM PDT";
-//         eventLocation = "Greenhouse Room, San Lorenzo Library (395 Paseo Grande, San Lorenzo, CA 94580)";
+//       if (workshopChoice.indexOf("CSI AI") !== -1) {
+//         subject = "You're Registered! CSI AI Online Workshop";
+//         workshopTitle = "CSI AI Online Workshop: Learn to Build with AI";
+//         eventDate = "To be announced (we'll email you once it's set)";
+//         eventTime = "To be announced";
+//         eventLocation = "Online (join link emailed before the workshop)";
 //         whatYouWillDo = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>Hands-on artificial intelligence & machine learning fundamentals</li><li style='margin-bottom: 4px;'>Interactive AI tool building & prompt engineering</li><li style='margin-bottom: 0;'>Creating your own AI-powered project guided by experienced student mentors</li></ul>";
-//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>A laptop or tablet (if available; loaners available on site if needed)</li><li style='margin-bottom: 0;'>Curiosity for building with modern AI tools!</li></ul>";
+//         whatToBring = "<ul style='margin: 0; padding-left: 20px; line-height: 1.7;'><li style='margin-bottom: 4px;'>A laptop or tablet with a stable internet connection</li><li style='margin-bottom: 0;'>Curiosity for building with modern AI tools!</li></ul>";
 //       } else if (workshopChoice.indexOf("Chem Workshop") !== -1) {
 //         subject = "You're Registered! CSI Chemistry Workshop — Nov 15";
 //         workshopTitle = "CSI Chemistry Workshop: Hands-on Experiments & Keynote Speakers";
